@@ -323,6 +323,22 @@
                     </div>
                 </div>
 
+                <!-- Subject Filter -->
+                <div class="bg-white border border-gray-200 rounded-lg p-4 mb-6">
+                    <div class="flex items-center gap-4">
+                        <label class="text-sm font-medium text-gray-700 whitespace-nowrap">📚 เลือกรายวิชา:</label>
+                        <select id="modalSubjectFilter" 
+                                class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                onchange="filterStudentStatsBySubject()">
+                            <option value="">ทุกรายวิชา</option>
+                        </select>
+                        <button onclick="clearSubjectFilter()" 
+                                class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap">
+                            🔄 ล้าง
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Statistics Cards -->
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
                     <div class="bg-green-100 rounded-lg p-4 text-center">
@@ -1014,15 +1030,70 @@
             document.getElementById('attendanceDate').value = todayISO;
         }
 
+        // Global variable to store current student data for modal
+        let currentStudentData = {
+            studentId: '',
+            studentName: '',
+            gradeLevel: '',
+            allRecords: []
+        };
+
         // Show student statistics
         function showStudentStats(studentId, studentName, gradeLevel) {
             const studentRecords = attendanceRecords.filter(record => record.studentId === studentId);
+            
+            // Store current student data globally
+            currentStudentData = {
+                studentId,
+                studentName,
+                gradeLevel,
+                allRecords: studentRecords
+            };
             
             // Update modal header
             document.getElementById('modalStudentName').textContent = `📊 สถิติการเข้าเรียน - ${studentName}`;
             document.getElementById('modalStudentId').textContent = studentId;
             document.getElementById('modalStudentGrade').textContent = gradeLevel;
-            document.getElementById('modalTotalRecords').textContent = studentRecords.length;
+            
+            // Populate subject filter dropdown
+            const subjectFilter = document.getElementById('modalSubjectFilter');
+            const uniqueSubjects = [...new Set(studentRecords.map(r => r.subject).filter(s => s))].sort();
+            
+            subjectFilter.innerHTML = '<option value="">ทุกรายวิชา</option>';
+            uniqueSubjects.forEach(subject => {
+                subjectFilter.innerHTML += `<option value="${subject}">${subject}</option>`;
+            });
+            
+            // Reset filter and display all records
+            subjectFilter.value = '';
+            updateStudentStatsDisplay(studentRecords);
+            
+            // Show modal
+            document.getElementById('studentStatsModal').classList.remove('hidden');
+        }
+
+        // Filter student statistics by subject
+        function filterStudentStatsBySubject() {
+            const selectedSubject = document.getElementById('modalSubjectFilter').value;
+            
+            let filteredRecords = currentStudentData.allRecords;
+            if (selectedSubject) {
+                filteredRecords = currentStudentData.allRecords.filter(record => record.subject === selectedSubject);
+            }
+            
+            updateStudentStatsDisplay(filteredRecords);
+        }
+
+        // Clear subject filter
+        function clearSubjectFilter() {
+            document.getElementById('modalSubjectFilter').value = '';
+            updateStudentStatsDisplay(currentStudentData.allRecords);
+        }
+
+        // Update student statistics display
+        function updateStudentStatsDisplay(records) {
+            // Update total records count
+            document.getElementById('modalTotalRecords').textContent = records.length;
             
             // Calculate statistics
             const stats = {
@@ -1033,13 +1104,13 @@
                 'ลากิจ': 0
             };
             
-            studentRecords.forEach(record => {
+            records.forEach(record => {
                 if (stats.hasOwnProperty(record.status)) {
                     stats[record.status]++;
                 }
             });
             
-            const total = studentRecords.length;
+            const total = records.length;
             
             // Update statistics with percentages
             document.getElementById('modalPresentCount').textContent = stats['มาเรียน'];
@@ -1058,13 +1129,18 @@
             document.getElementById('modalLeavePercent').textContent = total > 0 ? `${Math.round((stats['ลากิจ'] / total) * 100)}%` : '0%';
             
             // Show recent records (last 10)
-            const recentRecords = studentRecords.slice(0, 10);
+            const recentRecords = records.slice(0, 10);
             const recentTableBody = document.getElementById('modalRecentRecords');
             
             if (recentRecords.length === 0) {
                 recentTableBody.innerHTML = `
                     <tr>
-                        <td colspan="4" class="px-3 py-4 text-center text-gray-500">ยังไม่มีข้อมูลการเข้าเรียน</td>
+                        <td colspan="4" class="px-3 py-4 text-center text-gray-500">
+                            <div class="flex flex-col items-center">
+                                <div class="text-2xl mb-2">📚</div>
+                                <p>ไม่พบข้อมูลการเข้าเรียนในรายวิชาที่เลือก</p>
+                            </div>
+                        </td>
                     </tr>
                 `;
             } else {
@@ -1086,7 +1162,7 @@
                 
                 recentTableBody.innerHTML = recentRecords.map(record => `
                     <tr class="border-b border-gray-200">
-                        <td class="px-3 py-2 text-sm">${record.subject}</td>
+                        <td class="px-3 py-2 text-sm font-medium">${record.subject}</td>
                         <td class="px-3 py-2">
                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${statusColor[record.status] || 'text-gray-600 bg-gray-100'}">
                                 ${statusEmoji[record.status] || '📝'} ${record.status}
@@ -1097,9 +1173,6 @@
                     </tr>
                 `).join('');
             }
-            
-            // Show modal
-            document.getElementById('studentStatsModal').classList.remove('hidden');
         }
         
         // Close student statistics modal
@@ -1125,5 +1198,5 @@
             filterRecords();
         }, 1000);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97203a354758a1c8',t:'MTc1NTY3NTQ2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'972040bc637ea1c8',t:'MTc1NTY3NTczNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
