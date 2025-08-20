@@ -99,72 +99,103 @@
         <!-- Attendance Form Section -->
         <div id="attendanceSection" class="bg-white rounded-xl shadow-lg p-6 mb-8">
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">📝 บันทึกการเข้าเรียน</h2>
-            <form id="attendanceForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- Class Selection Form -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">ระดับชั้น</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">📅 วันที่</label>
+                    <input type="date" id="attendanceDate" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">🎓 ระดับชั้น</label>
                     <select id="gradeSelect" required 
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         <option value="">เลือกระดับชั้น</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">นักเรียน</label>
-                    <select id="studentSelect" required disabled
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                        <option value="">เลือกระดับชั้นก่อน</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">วิชา</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">📚 วิชา</label>
                     <input type="text" id="subject" required 
                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                            placeholder="เช่น คณิตศาสตร์">
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">สถานะ</label>
-                    <select id="status" required 
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                        <option value="">เลือกสถานะ</option>
-                        <option value="มาเรียน">✅ มาเรียน</option>
-                        <option value="ขาดเรียน">❌ ขาดเรียน</option>
-                        <option value="มาสาย">⏰ มาสาย</option>
-                        <option value="ลาป่วย">🏥 ลาป่วย</option>
-                        <option value="ลากิจ">📋 ลากิจ</option>
-                    </select>
+            </div>
+
+            <!-- Students Attendance List -->
+            <div id="studentsAttendanceSection" class="hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">👥 รายชื่อนักเรียน</h3>
+                    <div class="flex gap-2">
+                        <button onclick="setAllStatus('มาเรียน')" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
+                            ✅ ทั้งหมดมาเรียน
+                        </button>
+                        <button onclick="setAllStatus('ขาดเรียน')" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
+                            ❌ ทั้งหมดขาดเรียน
+                        </button>
+                    </div>
                 </div>
-                <div class="md:col-span-2 lg:col-span-4">
-                    <button type="submit" 
-                            class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-6 rounded-lg transition duration-200 transform hover:scale-105">
-                        💾 บันทึกข้อมูล
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6" id="studentsAttendanceList">
+                    <!-- Students will be populated here -->
+                </div>
+                
+                <div class="text-center">
+                    <button onclick="saveAllAttendance()" 
+                            class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-8 rounded-lg transition duration-200 transform hover:scale-105 text-lg">
+                        💾 บันทึกการเข้าเรียนทั้งหมด
                     </button>
                 </div>
-            </form>
+            </div>
         </div>
 
         <!-- Filter Section -->
         <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">🔍 ค้นหาข้อมูล</h3>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">🔍 ค้นหาและกรองข้อมูล</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">📅 เลือกวันที่</label>
                     <input type="date" id="dateFilter" 
                            class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
                 </div>
-                <input type="text" id="searchStudent" 
-                       class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                       placeholder="ค้นหาชื่อนักเรียน">
-                <input type="text" id="searchSubject" 
-                       class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                       placeholder="ค้นหาวิชา">
-                <select id="filterStatus" 
-                        class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                    <option value="">ทุกสถานะ</option>
-                    <option value="มาเรียน">มาเรียน</option>
-                    <option value="ขาดเรียน">ขาดเรียน</option>
-                    <option value="มาสาย">มาสาย</option>
-                    <option value="ลาป่วย">ลาป่วย</option>
-                    <option value="ลากิจ">ลากิจ</option>
-                </select>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">🎓 ระดับชั้น</label>
+                    <select id="filterGrade" 
+                            class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
+                        <option value="">ทุกระดับชั้น</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">📚 รายวิชา</label>
+                    <select id="filterSubject" 
+                            class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
+                        <option value="">ทุกรายวิชา</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">📊 สถานะ</label>
+                    <select id="filterStatus" 
+                            class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
+                        <option value="">ทุกสถานะ</option>
+                        <option value="มาเรียน">มาเรียน</option>
+                        <option value="ขาดเรียน">ขาดเรียน</option>
+                        <option value="มาสาย">มาสาย</option>
+                        <option value="ลาป่วย">ลาป่วย</option>
+                        <option value="ลากิจ">ลากิจ</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">👤 ค้นหานักเรียน</label>
+                    <input type="text" id="searchStudent" 
+                           class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full"
+                           placeholder="ชื่อหรือรหัส">
+                </div>
+                <div class="flex items-end">
+                    <button onclick="clearAllFilters()" 
+                            class="w-full bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                        🔄 ล้างตัวกรอง
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -175,13 +206,48 @@
                 <table class="w-full table-auto">
                     <thead>
                         <tr class="bg-gray-50">
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">รหัสนักเรียน</th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">ชื่อ-นามสกุล</th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">ระดับชั้น</th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">วิชา</th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">สถานะ</th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">วันที่</th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">เวลา</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortTable('studentId')">
+                                <div class="flex items-center justify-between">
+                                    <span>รหัสนักเรียน</span>
+                                    <span id="sort-studentId" class="text-gray-400">↕️</span>
+                                </div>
+                            </th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortTable('studentName')">
+                                <div class="flex items-center justify-between">
+                                    <span>ชื่อ-นามสกุล</span>
+                                    <span id="sort-studentName" class="text-gray-400">↕️</span>
+                                </div>
+                            </th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortTable('gradeLevel')">
+                                <div class="flex items-center justify-between">
+                                    <span>ระดับชั้น</span>
+                                    <span id="sort-gradeLevel" class="text-gray-400">↕️</span>
+                                </div>
+                            </th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortTable('subject')">
+                                <div class="flex items-center justify-between">
+                                    <span>วิชา</span>
+                                    <span id="sort-subject" class="text-gray-400">↕️</span>
+                                </div>
+                            </th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortTable('status')">
+                                <div class="flex items-center justify-between">
+                                    <span>สถานะ</span>
+                                    <span id="sort-status" class="text-gray-400">↕️</span>
+                                </div>
+                            </th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortTable('date')">
+                                <div class="flex items-center justify-between">
+                                    <span>วันที่</span>
+                                    <span id="sort-date" class="text-gray-400">↕️</span>
+                                </div>
+                            </th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortTable('time')">
+                                <div class="flex items-center justify-between">
+                                    <span>เวลา</span>
+                                    <span id="sort-time" class="text-gray-400">↕️</span>
+                                </div>
+                            </th>
                             <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">จัดการ</th>
                         </tr>
                     </thead>
@@ -228,6 +294,89 @@
     <div id="message" class="fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50">
     </div>
 
+    <!-- Student Statistics Modal -->
+    <div id="studentStatsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold text-gray-800" id="modalStudentName">📊 สถิติการเข้าเรียน</h2>
+                    <button onclick="closeStudentStats()" class="text-gray-500 hover:text-gray-700 text-2xl">×</button>
+                </div>
+            </div>
+            
+            <div class="p-6">
+                <!-- Student Info -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-indigo-600" id="modalStudentId">-</div>
+                            <div class="text-sm text-gray-600">รหัสนักเรียน</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-indigo-600" id="modalStudentGrade">-</div>
+                            <div class="text-sm text-gray-600">ระดับชั้น</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-indigo-600" id="modalTotalRecords">0</div>
+                            <div class="text-sm text-gray-600">จำนวนบันทึกทั้งหมด</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+                    <div class="bg-green-100 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-green-600" id="modalPresentCount">0</div>
+                        <div class="text-sm text-green-700">มาเรียน</div>
+                        <div class="text-xs text-green-600" id="modalPresentPercent">0%</div>
+                    </div>
+                    <div class="bg-red-100 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-red-600" id="modalAbsentCount">0</div>
+                        <div class="text-sm text-red-700">ขาดเรียน</div>
+                        <div class="text-xs text-red-600" id="modalAbsentPercent">0%</div>
+                    </div>
+                    <div class="bg-yellow-100 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-yellow-600" id="modalLateCount">0</div>
+                        <div class="text-sm text-yellow-700">มาสาย</div>
+                        <div class="text-xs text-yellow-600" id="modalLatePercent">0%</div>
+                    </div>
+                    <div class="bg-blue-100 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-blue-600" id="modalSickCount">0</div>
+                        <div class="text-sm text-blue-700">ลาป่วย</div>
+                        <div class="text-xs text-blue-600" id="modalSickPercent">0%</div>
+                    </div>
+                    <div class="bg-purple-100 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-purple-600" id="modalLeaveCount">0</div>
+                        <div class="text-sm text-purple-700">ลากิจ</div>
+                        <div class="text-xs text-purple-600" id="modalLeavePercent">0%</div>
+                    </div>
+                </div>
+
+                <!-- Recent Records -->
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">📋 บันทึกล่าสุด (10 รายการ)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full table-auto">
+                            <thead>
+                                <tr class="bg-white">
+                                    <th class="px-3 py-2 text-left text-sm font-medium text-gray-700">วิชา</th>
+                                    <th class="px-3 py-2 text-left text-sm font-medium text-gray-700">สถานะ</th>
+                                    <th class="px-3 py-2 text-left text-sm font-medium text-gray-700">วันที่</th>
+                                    <th class="px-3 py-2 text-left text-sm font-medium text-gray-700">เวลา</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modalRecentRecords">
+                                <tr>
+                                    <td colspan="4" class="px-3 py-4 text-center text-gray-500">กำลังโหลด...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Firebase Configuration
         const firebaseConfig = {
@@ -246,6 +395,8 @@
 
         let attendanceRecords = [];
         let students = [];
+        let currentSort = { field: null, direction: 'asc' };
+        let currentDisplayedRecords = [];
 
         // Show message function
         function showMessage(text, type = 'success') {
@@ -398,63 +549,181 @@
             uniqueGrades.forEach(grade => {
                 gradeSelect.innerHTML += `<option value="${grade}">${grade}</option>`;
             });
+            
+            // Update filter grade options
+            updateFilterOptions();
         }
 
-        // Handle grade selection change
+        // Update filter options
+        function updateFilterOptions() {
+            // Update grade filter
+            const filterGrade = document.getElementById('filterGrade');
+            const uniqueGrades = [...new Set(attendanceRecords.map(r => r.gradeLevel).filter(g => g))].sort();
+            
+            const currentGradeValue = filterGrade.value;
+            filterGrade.innerHTML = '<option value="">ทุกระดับชั้น</option>';
+            uniqueGrades.forEach(grade => {
+                filterGrade.innerHTML += `<option value="${grade}">${grade}</option>`;
+            });
+            filterGrade.value = currentGradeValue;
+            
+            // Update subject filter
+            const filterSubject = document.getElementById('filterSubject');
+            const uniqueSubjects = [...new Set(attendanceRecords.map(r => r.subject).filter(s => s))].sort();
+            
+            const currentSubjectValue = filterSubject.value;
+            filterSubject.innerHTML = '<option value="">ทุกรายวิชา</option>';
+            uniqueSubjects.forEach(subject => {
+                filterSubject.innerHTML += `<option value="${subject}">${subject}</option>`;
+            });
+            filterSubject.value = currentSubjectValue;
+        }
+
+        // Handle grade selection change - Show all students in selected grade
         document.getElementById('gradeSelect').addEventListener('change', (e) => {
             const selectedGrade = e.target.value;
-            const studentSelect = document.getElementById('studentSelect');
+            const studentsSection = document.getElementById('studentsAttendanceSection');
             
             if (!selectedGrade) {
-                studentSelect.innerHTML = '<option value="">เลือกระดับชั้นก่อน</option>';
-                studentSelect.disabled = true;
+                studentsSection.classList.add('hidden');
                 return;
             }
             
             const gradeStudents = students.filter(s => s.gradeLevel === selectedGrade);
-            studentSelect.innerHTML = '<option value="">เลือกนักเรียน</option>';
-            gradeStudents.forEach(student => {
-                studentSelect.innerHTML += `<option value="${student.studentId}|${student.studentName}|${student.gradeLevel}">${student.studentId} - ${student.studentName}</option>`;
-            });
-            studentSelect.disabled = false;
+            
+            if (gradeStudents.length === 0) {
+                showMessage('ไม่พบนักเรียนในระดับชั้นนี้ ❌', 'error');
+                studentsSection.classList.add('hidden');
+                return;
+            }
+            
+            displayStudentsForAttendance(gradeStudents);
+            studentsSection.classList.remove('hidden');
         });
 
-        // Add attendance record
-        document.getElementById('attendanceForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        // Display students for attendance recording
+        function displayStudentsForAttendance(gradeStudents) {
+            const container = document.getElementById('studentsAttendanceList');
             
-            const studentData = document.getElementById('studentSelect').value.split('|');
-            const studentId = studentData[0];
-            const studentName = studentData[1];
-            const gradeLevel = studentData[2];
-            const subject = document.getElementById('subject').value;
-            const status = document.getElementById('status').value;
-            
-            const now = new Date();
-            const attendanceData = {
-                studentId,
-                studentName,
-                gradeLevel,
-                subject,
-                status,
-                date: now.toLocaleDateString('th-TH'),
-                dateISO: now.toISOString().split('T')[0], // Store date in YYYY-MM-DD format for filtering
-                time: now.toLocaleTimeString('th-TH'),
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            };
+            container.innerHTML = gradeStudents.map(student => `
+                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <div class="flex flex-col space-y-3">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">${student.studentName}</div>
+                            <div class="text-sm text-gray-600">${student.studentId}</div>
+                        </div>
+                        <div>
+                            <select id="status_${student.studentId}" 
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm">
+                                <option value="">เลือกสถานะ</option>
+                                <option value="มาเรียน">✅ มาเรียน</option>
+                                <option value="ขาดเรียน">❌ ขาดเรียน</option>
+                                <option value="มาสาย">⏰ มาสาย</option>
+                                <option value="ลาป่วย">🏥 ลาป่วย</option>
+                                <option value="ลากิจ">📋 ลากิจ</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
 
+        // Set all students to the same status
+        function setAllStatus(status) {
+            const selectedGrade = document.getElementById('gradeSelect').value;
+            if (!selectedGrade) return;
+            
+            const gradeStudents = students.filter(s => s.gradeLevel === selectedGrade);
+            gradeStudents.forEach(student => {
+                const statusSelect = document.getElementById(`status_${student.studentId}`);
+                if (statusSelect) {
+                    statusSelect.value = status;
+                }
+            });
+            
+            showMessage(`ตั้งค่าสถานะทั้งหมดเป็น "${status}" แล้ว! ✅`);
+        }
+
+        // Save all attendance records
+        async function saveAllAttendance() {
+            const selectedGrade = document.getElementById('gradeSelect').value;
+            const subject = document.getElementById('subject').value;
+            const selectedDate = document.getElementById('attendanceDate').value;
+            
+            if (!selectedGrade || !subject || !selectedDate) {
+                showMessage('กรุณากรอกข้อมูลให้ครบถ้วน ❌', 'error');
+                return;
+            }
+            
+            const gradeStudents = students.filter(s => s.gradeLevel === selectedGrade);
+            const attendanceData = [];
+            let hasEmptyStatus = false;
+            
+            // Collect all attendance data
+            gradeStudents.forEach(student => {
+                const statusSelect = document.getElementById(`status_${student.studentId}`);
+                const status = statusSelect ? statusSelect.value : '';
+                
+                if (!status) {
+                    hasEmptyStatus = true;
+                    return;
+                }
+                
+                // Convert selected date to Thai format for display
+                const dateObj = new Date(selectedDate + 'T00:00:00');
+                const thaiDate = dateObj.toLocaleDateString('th-TH');
+                
+                const now = new Date();
+                attendanceData.push({
+                    studentId: student.studentId,
+                    studentName: student.studentName,
+                    gradeLevel: student.gradeLevel,
+                    subject: subject,
+                    status: status,
+                    date: thaiDate,
+                    dateISO: selectedDate,
+                    time: now.toLocaleTimeString('th-TH'),
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            });
+            
+            if (hasEmptyStatus) {
+                showMessage('กรุณาเลือกสถานะให้ครบทุกคน ❌', 'error');
+                return;
+            }
+            
+            if (attendanceData.length === 0) {
+                showMessage('ไม่มีข้อมูลให้บันทึก ❌', 'error');
+                return;
+            }
+            
+            // Save all records to Firebase
             try {
-                await db.collection('attendance').add(attendanceData);
-                showMessage('บันทึกข้อมูลเรียบร้อยแล้ว! ✅');
-                document.getElementById('attendanceForm').reset();
-                document.getElementById('studentSelect').disabled = true;
-                document.getElementById('studentSelect').innerHTML = '<option value="">เลือกระดับชั้นก่อน</option>';
+                const batch = db.batch();
+                
+                attendanceData.forEach(data => {
+                    const docRef = db.collection('attendance').doc();
+                    batch.set(docRef, data);
+                });
+                
+                await batch.commit();
+                
+                showMessage(`บันทึกการเข้าเรียนสำเร็จ! จำนวน ${attendanceData.length} คน ✅`);
+                
+                // Reset form
+                document.getElementById('gradeSelect').value = '';
+                document.getElementById('subject').value = '';
+                document.getElementById('studentsAttendanceSection').classList.add('hidden');
+                setTodayAsDefaultForForm();
+                
+                // Reload attendance records
                 loadAttendanceRecords();
+                
             } catch (error) {
-                console.error('Error adding document: ', error);
+                console.error('Error saving attendance: ', error);
                 showMessage('เกิดข้อผิดพลาดในการบันทึกข้อมูล ❌', 'error');
             }
-        });
+        }
 
         // Load attendance records
         async function loadAttendanceRecords() {
@@ -471,6 +740,7 @@
                     });
                 });
                 
+                updateFilterOptions();
                 displayAttendanceRecords(attendanceRecords);
                 updateStatistics();
             } catch (error) {
@@ -479,8 +749,93 @@
             }
         }
 
+        // Sort table function
+        function sortTable(field) {
+            // Reset all sort indicators
+            document.querySelectorAll('[id^="sort-"]').forEach(el => {
+                el.textContent = '↕️';
+                el.className = 'text-gray-400';
+            });
+            
+            // Determine sort direction
+            if (currentSort.field === field) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.field = field;
+                currentSort.direction = field === 'studentId' ? 'desc' : 'asc'; // Default รหัสนักเรียน to descending
+            }
+            
+            // Update sort indicator
+            const sortIndicator = document.getElementById(`sort-${field}`);
+            if (sortIndicator) {
+                sortIndicator.textContent = currentSort.direction === 'asc' ? '↑' : '↓';
+                sortIndicator.className = 'text-indigo-600';
+            }
+            
+            // Sort the currently displayed records
+            const sortedRecords = [...currentDisplayedRecords].sort((a, b) => {
+                let aValue = a[field] || '';
+                let bValue = b[field] || '';
+                
+                // Special handling for different field types
+                if (field === 'studentId') {
+                    // Convert to numbers for proper numeric sorting
+                    aValue = parseInt(aValue) || 0;
+                    bValue = parseInt(bValue) || 0;
+                } else if (field === 'date') {
+                    // Convert Thai date to comparable format
+                    aValue = convertThaiDateToSortable(aValue);
+                    bValue = convertThaiDateToSortable(bValue);
+                } else if (field === 'time') {
+                    // Convert time to comparable format
+                    aValue = convertTimeToSortable(aValue);
+                    bValue = convertTimeToSortable(bValue);
+                } else {
+                    // String comparison
+                    aValue = aValue.toString().toLowerCase();
+                    bValue = bValue.toString().toLowerCase();
+                }
+                
+                if (currentSort.direction === 'asc') {
+                    return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+                } else {
+                    return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+                }
+            });
+            
+            displayAttendanceRecords(sortedRecords);
+        }
+        
+        // Helper function to convert Thai date to sortable format
+        function convertThaiDateToSortable(thaiDate) {
+            if (!thaiDate) return '';
+            const parts = thaiDate.split('/');
+            if (parts.length === 3) {
+                const day = parts[0].padStart(2, '0');
+                const month = parts[1].padStart(2, '0');
+                const year = (parseInt(parts[2]) - 543).toString(); // Convert Buddhist to Christian year
+                return `${year}-${month}-${day}`;
+            }
+            return thaiDate;
+        }
+        
+        // Helper function to convert time to sortable format
+        function convertTimeToSortable(time) {
+            if (!time) return '';
+            // Convert "14:30:25" format to comparable number
+            const parts = time.split(':');
+            if (parts.length >= 2) {
+                const hours = parseInt(parts[0]) || 0;
+                const minutes = parseInt(parts[1]) || 0;
+                const seconds = parseInt(parts[2]) || 0;
+                return hours * 3600 + minutes * 60 + seconds;
+            }
+            return 0;
+        }
+
         // Display attendance records
         function displayAttendanceRecords(records) {
+            currentDisplayedRecords = records; // Store current records for sorting
             const tableBody = document.getElementById('attendanceTable');
             
             if (records.length === 0) {
@@ -517,7 +872,12 @@
                 return `
                     <tr class="border-b border-gray-200 hover:bg-gray-50">
                         <td class="px-4 py-3 font-medium">${record.studentId}</td>
-                        <td class="px-4 py-3">${record.studentName}</td>
+                        <td class="px-4 py-3">
+                            <button onclick="showStudentStats('${record.studentId}', '${record.studentName}', '${record.gradeLevel || 'ไม่ระบุ'}')" 
+                                    class="text-blue-600 hover:text-blue-800 hover:underline font-medium">
+                                ${record.studentName}
+                            </button>
+                        </td>
                         <td class="px-4 py-3">
                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                 🎓 ${record.gradeLevel || 'ไม่ระบุ'}
@@ -582,14 +942,16 @@
         // Filter functionality
         function filterRecords() {
             const searchStudent = document.getElementById('searchStudent').value.toLowerCase();
-            const searchSubject = document.getElementById('searchSubject').value.toLowerCase();
+            const filterGrade = document.getElementById('filterGrade').value;
+            const filterSubject = document.getElementById('filterSubject').value;
             const filterStatus = document.getElementById('filterStatus').value;
             const dateFilter = document.getElementById('dateFilter').value;
 
             const filteredRecords = attendanceRecords.filter(record => {
                 const matchStudent = record.studentName.toLowerCase().includes(searchStudent) || 
                                    record.studentId.toLowerCase().includes(searchStudent);
-                const matchSubject = record.subject.toLowerCase().includes(searchSubject);
+                const matchGrade = !filterGrade || record.gradeLevel === filterGrade;
+                const matchSubject = !filterSubject || record.subject === filterSubject;
                 const matchStatus = !filterStatus || record.status === filterStatus;
                 
                 // Date filtering
@@ -612,16 +974,29 @@
                     }
                 }
 
-                return matchStudent && matchSubject && matchStatus && matchDate;
+                return matchStudent && matchGrade && matchSubject && matchStatus && matchDate;
             });
 
             displayAttendanceRecords(filteredRecords);
             updateStatistics(filteredRecords);
         }
 
+        // Clear all filters
+        function clearAllFilters() {
+            document.getElementById('dateFilter').value = '';
+            document.getElementById('filterGrade').value = '';
+            document.getElementById('filterSubject').value = '';
+            document.getElementById('filterStatus').value = '';
+            document.getElementById('searchStudent').value = '';
+            
+            displayAttendanceRecords(attendanceRecords);
+            updateStatistics(attendanceRecords);
+        }
+
         // Add event listeners for filtering
         document.getElementById('searchStudent').addEventListener('input', filterRecords);
-        document.getElementById('searchSubject').addEventListener('input', filterRecords);
+        document.getElementById('filterGrade').addEventListener('change', filterRecords);
+        document.getElementById('filterSubject').addEventListener('change', filterRecords);
         document.getElementById('filterStatus').addEventListener('change', filterRecords);
         document.getElementById('dateFilter').addEventListener('change', filterRecords);
 
@@ -632,15 +1007,123 @@
             document.getElementById('dateFilter').value = todayISO;
         }
 
+        // Set today's date as default for attendance form
+        function setTodayAsDefaultForForm() {
+            const today = new Date();
+            const todayISO = today.toISOString().split('T')[0];
+            document.getElementById('attendanceDate').value = todayISO;
+        }
+
+        // Show student statistics
+        function showStudentStats(studentId, studentName, gradeLevel) {
+            const studentRecords = attendanceRecords.filter(record => record.studentId === studentId);
+            
+            // Update modal header
+            document.getElementById('modalStudentName').textContent = `📊 สถิติการเข้าเรียน - ${studentName}`;
+            document.getElementById('modalStudentId').textContent = studentId;
+            document.getElementById('modalStudentGrade').textContent = gradeLevel;
+            document.getElementById('modalTotalRecords').textContent = studentRecords.length;
+            
+            // Calculate statistics
+            const stats = {
+                'มาเรียน': 0,
+                'ขาดเรียน': 0,
+                'มาสาย': 0,
+                'ลาป่วย': 0,
+                'ลากิจ': 0
+            };
+            
+            studentRecords.forEach(record => {
+                if (stats.hasOwnProperty(record.status)) {
+                    stats[record.status]++;
+                }
+            });
+            
+            const total = studentRecords.length;
+            
+            // Update statistics with percentages
+            document.getElementById('modalPresentCount').textContent = stats['มาเรียน'];
+            document.getElementById('modalPresentPercent').textContent = total > 0 ? `${Math.round((stats['มาเรียน'] / total) * 100)}%` : '0%';
+            
+            document.getElementById('modalAbsentCount').textContent = stats['ขาดเรียน'];
+            document.getElementById('modalAbsentPercent').textContent = total > 0 ? `${Math.round((stats['ขาดเรียน'] / total) * 100)}%` : '0%';
+            
+            document.getElementById('modalLateCount').textContent = stats['มาสาย'];
+            document.getElementById('modalLatePercent').textContent = total > 0 ? `${Math.round((stats['มาสาย'] / total) * 100)}%` : '0%';
+            
+            document.getElementById('modalSickCount').textContent = stats['ลาป่วย'];
+            document.getElementById('modalSickPercent').textContent = total > 0 ? `${Math.round((stats['ลาป่วย'] / total) * 100)}%` : '0%';
+            
+            document.getElementById('modalLeaveCount').textContent = stats['ลากิจ'];
+            document.getElementById('modalLeavePercent').textContent = total > 0 ? `${Math.round((stats['ลากิจ'] / total) * 100)}%` : '0%';
+            
+            // Show recent records (last 10)
+            const recentRecords = studentRecords.slice(0, 10);
+            const recentTableBody = document.getElementById('modalRecentRecords');
+            
+            if (recentRecords.length === 0) {
+                recentTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="px-3 py-4 text-center text-gray-500">ยังไม่มีข้อมูลการเข้าเรียน</td>
+                    </tr>
+                `;
+            } else {
+                const statusEmoji = {
+                    'มาเรียน': '✅',
+                    'ขาดเรียน': '❌',
+                    'มาสาย': '⏰',
+                    'ลาป่วย': '🏥',
+                    'ลากิจ': '📋'
+                };
+                
+                const statusColor = {
+                    'มาเรียน': 'text-green-600 bg-green-100',
+                    'ขาดเรียน': 'text-red-600 bg-red-100',
+                    'มาสาย': 'text-yellow-600 bg-yellow-100',
+                    'ลาป่วย': 'text-blue-600 bg-blue-100',
+                    'ลากิจ': 'text-purple-600 bg-purple-100'
+                };
+                
+                recentTableBody.innerHTML = recentRecords.map(record => `
+                    <tr class="border-b border-gray-200">
+                        <td class="px-3 py-2 text-sm">${record.subject}</td>
+                        <td class="px-3 py-2">
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${statusColor[record.status] || 'text-gray-600 bg-gray-100'}">
+                                ${statusEmoji[record.status] || '📝'} ${record.status}
+                            </span>
+                        </td>
+                        <td class="px-3 py-2 text-sm text-gray-600">${record.date}</td>
+                        <td class="px-3 py-2 text-sm text-gray-600">${record.time}</td>
+                    </tr>
+                `).join('');
+            }
+            
+            // Show modal
+            document.getElementById('studentStatsModal').classList.remove('hidden');
+        }
+        
+        // Close student statistics modal
+        function closeStudentStats() {
+            document.getElementById('studentStatsModal').classList.add('hidden');
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('studentStatsModal').addEventListener('click', (e) => {
+            if (e.target.id === 'studentStatsModal') {
+                closeStudentStats();
+            }
+        });
+
         // Load initial data
         loadStudents();
         loadAttendanceRecords();
         setTodayAsDefault();
+        setTodayAsDefaultForForm();
         
         // Filter records to show today's data by default
         setTimeout(() => {
             filterRecords();
         }, 1000);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9720119e5471894c',t:'MTc1NTY3MzgwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97203a354758a1c8',t:'MTc1NTY3NTQ2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
