@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
-        body { font-family: 'Sarabun', sans-serif; }
+        body {
+            font-family: 'Sarabun', sans-serif;
+        }
     </style>
 </head>
+
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
     <div class="container mx-auto px-4 py-8">
         <!-- Header -->
@@ -23,10 +29,12 @@
         <!-- Tab Navigation -->
         <div class="bg-white rounded-xl shadow-lg mb-8">
             <div class="flex border-b">
-                <button id="attendanceTab" class="flex-1 py-4 px-6 text-center font-medium text-indigo-600 border-b-2 border-indigo-600">
+                <button id="attendanceTab"
+                    class="flex-1 py-4 px-6 text-center font-medium text-indigo-600 border-b-2 border-indigo-600">
                     📝 บันทึกการเข้าเรียน
                 </button>
-                <button id="studentTab" class="flex-1 py-4 px-6 text-center font-medium text-gray-500 hover:text-indigo-600">
+                <button id="studentTab"
+                    class="flex-1 py-4 px-6 text-center font-medium text-gray-500 hover:text-indigo-600">
                     👥 จัดการนักเรียน
                 </button>
             </div>
@@ -38,20 +46,20 @@
             <form id="studentForm" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">รหัสนักเรียน</label>
-                    <input type="text" id="newStudentId" required 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                           placeholder="เช่น 65001">
+                    <input type="text" id="newStudentId" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="เช่น 65001">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">ชื่อ-นามสกุล</label>
-                    <input type="text" id="newStudentName" required 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                           placeholder="เช่น สมชาย ใจดี">
+                    <input type="text" id="newStudentName" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="เช่น สมชาย ใจดี">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">ระดับชั้น</label>
-                    <select id="newGradeLevel" required 
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <select id="newGradeLevel" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         <option value="">เลือกระดับชั้น</option>
                         <option value="ปวช1">ปวช1</option>
                         <option value="ปวช2">ปวช2</option>
@@ -61,8 +69,8 @@
                     </select>
                 </div>
                 <div class="md:col-span-3">
-                    <button type="submit" 
-                            class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg transition duration-200 transform hover:scale-105">
+                    <button type="submit"
+                        class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg transition duration-200 transform hover:scale-105">
                         ➕ เพิ่มนักเรียน
                     </button>
                 </div>
@@ -74,13 +82,13 @@
                     <h3 class="text-xl font-semibold text-gray-800">📋 รายชื่อนักเรียน</h3>
                     <div class="flex items-center gap-4">
                         <label class="text-sm font-medium text-gray-700">🎓 กรองตามระดับชั้น:</label>
-                        <select id="studentGradeFilter" 
-                                class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                onchange="filterStudentsByGrade()">
+                        <select id="studentGradeFilter"
+                            class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                            onchange="filterStudentsByGrade()">
                             <option value="">ทุกระดับชั้น</option>
                         </select>
-                        <button onclick="clearStudentFilter()" 
-                                class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-sm">
+                        <button onclick="clearStudentFilter()"
+                            class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-sm">
                             🔄 ล้าง
                         </button>
                     </div>
@@ -89,19 +97,22 @@
                     <table class="w-full table-auto">
                         <thead>
                             <tr class="bg-gray-50">
-                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortStudents('studentId')">
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                                    onclick="sortStudents('studentId')">
                                     <div class="flex items-center justify-between">
                                         <span>รหัสนักเรียน</span>
                                         <span id="sort-student-studentId" class="text-gray-400">↕️</span>
                                     </div>
                                 </th>
-                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortStudents('studentName')">
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                                    onclick="sortStudents('studentName')">
                                     <div class="flex items-center justify-between">
                                         <span>ชื่อ-นามสกุล</span>
                                         <span id="sort-student-studentName" class="text-gray-400">↕️</span>
                                     </div>
                                 </th>
-                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortStudents('gradeLevel')">
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                                    onclick="sortStudents('gradeLevel')">
                                     <div class="flex items-center justify-between">
                                         <span>ระดับชั้น</span>
                                         <span id="sort-student-gradeLevel" class="text-gray-400">↕️</span>
@@ -128,26 +139,26 @@
         <!-- Attendance Form Section -->
         <div id="attendanceSection" class="bg-white rounded-xl shadow-lg p-6 mb-8">
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">📝 บันทึกการเข้าเรียน</h2>
-            
+
             <!-- Class Selection Form -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">📅 วันที่</label>
                     <input type="date" id="attendanceDate" required
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">🎓 ระดับชั้น</label>
-                    <select id="gradeSelect" required 
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <select id="gradeSelect" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         <option value="">เลือกระดับชั้น</option>
                     </select>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">📚 วิชา</label>
-                    <input type="text" id="subject" required 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                           placeholder="เช่น คณิตศาสตร์">
+                    <input type="text" id="subject" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="เช่น คณิตศาสตร์">
                 </div>
             </div>
 
@@ -156,22 +167,24 @@
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-semibold text-gray-800">👥 รายชื่อนักเรียน</h3>
                     <div class="flex gap-2">
-                        <button onclick="setAllStatus('มาเรียน')" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
+                        <button onclick="setAllStatus('มาเรียน')"
+                            class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
                             ✅ ทั้งหมดมาเรียน
                         </button>
-                        <button onclick="setAllStatus('ขาดเรียน')" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
+                        <button onclick="setAllStatus('ขาดเรียน')"
+                            class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
                             ❌ ทั้งหมดขาดเรียน
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6" id="studentsAttendanceList">
                     <!-- Students will be populated here -->
                 </div>
-                
+
                 <div class="text-center">
-                    <button onclick="saveAllAttendance()" 
-                            class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-8 rounded-lg transition duration-200 transform hover:scale-105 text-lg">
+                    <button onclick="saveAllAttendance()"
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-8 rounded-lg transition duration-200 transform hover:scale-105 text-lg">
                         💾 บันทึกการเข้าเรียนทั้งหมด
                     </button>
                 </div>
@@ -184,27 +197,27 @@
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">📅 เลือกวันที่</label>
-                    <input type="date" id="dateFilter" 
-                           class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
+                    <input type="date" id="dateFilter"
+                        class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">🎓 ระดับชั้น</label>
-                    <select id="filterGrade" 
-                            class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
+                    <select id="filterGrade"
+                        class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
                         <option value="">ทุกระดับชั้น</option>
                     </select>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">📚 รายวิชา</label>
-                    <select id="filterSubject" 
-                            class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
+                    <select id="filterSubject"
+                        class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
                         <option value="">ทุกรายวิชา</option>
                     </select>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">📊 สถานะ</label>
-                    <select id="filterStatus" 
-                            class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
+                    <select id="filterStatus"
+                        class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
                         <option value="">ทุกสถานะ</option>
                         <option value="มาเรียน">มาเรียน</option>
                         <option value="ขาดเรียน">ขาดเรียน</option>
@@ -215,13 +228,13 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">👤 ค้นหานักเรียน</label>
-                    <input type="text" id="searchStudent" 
-                           class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full"
-                           placeholder="ชื่อหรือรหัส">
+                    <input type="text" id="searchStudent"
+                        class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full"
+                        placeholder="ชื่อหรือรหัส">
                 </div>
                 <div class="flex items-end">
-                    <button onclick="clearAllFilters()" 
-                            class="w-full bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                    <button onclick="clearAllFilters()"
+                        class="w-full bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
                         🔄 ล้างตัวกรอง
                     </button>
                 </div>
@@ -232,46 +245,80 @@
         <div class="bg-white rounded-xl shadow-lg p-6">
             <h3 class="text-xl font-semibold text-gray-800 mb-4">📊 บันทึกการเข้าเรียน</h3>
             <div class="overflow-x-auto">
+                <!-- Bulk Delete Controls -->
+                <div id="bulkDeleteControls" class="hidden bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <span class="text-blue-800 font-medium">
+                                🗂️ เลือกแล้ว <span id="selectedCount" class="font-bold">0</span> รายการ
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="deleteSelectedRecords()"
+                                class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                                🗑️ ลบที่เลือก
+                            </button>
+                            <button onclick="clearSelection()"
+                                class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                                ✖️ ยกเลิก
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <table class="w-full table-auto">
                     <thead>
                         <tr class="bg-gray-50">
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortTable('studentId')">
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                                <input type="checkbox" id="selectAll"
+                                    class="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2"
+                                    onchange="toggleSelectAll()">
+                                <label for="selectAll" class="ml-2 text-xs">เลือกทั้งหมด</label>
+                            </th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                                onclick="sortTable('studentId')">
                                 <div class="flex items-center justify-between">
                                     <span>รหัสนักเรียน</span>
                                     <span id="sort-studentId" class="text-gray-400">↕️</span>
                                 </div>
                             </th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortTable('studentName')">
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                                onclick="sortTable('studentName')">
                                 <div class="flex items-center justify-between">
                                     <span>ชื่อ-นามสกุล</span>
                                     <span id="sort-studentName" class="text-gray-400">↕️</span>
                                 </div>
                             </th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortTable('gradeLevel')">
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                                onclick="sortTable('gradeLevel')">
                                 <div class="flex items-center justify-between">
                                     <span>ระดับชั้น</span>
                                     <span id="sort-gradeLevel" class="text-gray-400">↕️</span>
                                 </div>
                             </th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortTable('subject')">
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                                onclick="sortTable('subject')">
                                 <div class="flex items-center justify-between">
                                     <span>วิชา</span>
                                     <span id="sort-subject" class="text-gray-400">↕️</span>
                                 </div>
                             </th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortTable('status')">
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                                onclick="sortTable('status')">
                                 <div class="flex items-center justify-between">
                                     <span>สถานะ</span>
                                     <span id="sort-status" class="text-gray-400">↕️</span>
                                 </div>
                             </th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortTable('date')">
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                                onclick="sortTable('date')">
                                 <div class="flex items-center justify-between">
                                     <span>วันที่</span>
                                     <span id="sort-date" class="text-gray-400">↕️</span>
                                 </div>
                             </th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none" onclick="sortTable('time')">
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                                onclick="sortTable('time')">
                                 <div class="flex items-center justify-between">
                                     <span>เวลา</span>
                                     <span id="sort-time" class="text-gray-400">↕️</span>
@@ -282,7 +329,7 @@
                     </thead>
                     <tbody id="attendanceTable">
                         <tr>
-                            <td colspan="8" class="px-4 py-8 text-center text-gray-500">
+                            <td colspan="9" class="px-4 py-8 text-center text-gray-500">
                                 <div class="flex flex-col items-center">
                                     <div class="text-4xl mb-2">📋</div>
                                     <p>กำลังโหลดข้อมูล...</p>
@@ -320,11 +367,113 @@
     </div>
 
     <!-- Success/Error Messages -->
-    <div id="message" class="fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+    <div id="message"
+        class="fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+    </div>
+
+    <!-- Edit Status Modal -->
+    <div id="editStatusModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-bold text-gray-800">✏️ แก้ไขสถานะการเข้าเรียน</h2>
+                    <button onclick="closeEditStatus()" class="text-gray-500 hover:text-gray-700 text-2xl">×</button>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <!-- Student Info Display -->
+                <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <span class="text-gray-600">รหัสนักเรียน:</span>
+                            <div class="font-medium" id="editStudentId">-</div>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">ชื่อ-นามสกุล:</span>
+                            <div class="font-medium" id="editStudentName">-</div>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">วิชา:</span>
+                            <div class="font-medium" id="editSubject">-</div>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">วันที่:</span>
+                            <div class="font-medium" id="editDate">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status Selection -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-3">เลือกสถานะใหม่:</label>
+                    <div class="grid grid-cols-1 gap-2">
+                        <label
+                            class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <input type="radio" name="newStatus" value="มาเรียน"
+                                class="mr-3 text-green-600 focus:ring-green-500">
+                            <span class="flex items-center">
+                                <span class="text-lg mr-2">✅</span>
+                                <span class="font-medium text-green-700">มาเรียน</span>
+                            </span>
+                        </label>
+                        <label
+                            class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <input type="radio" name="newStatus" value="ขาดเรียน"
+                                class="mr-3 text-red-600 focus:ring-red-500">
+                            <span class="flex items-center">
+                                <span class="text-lg mr-2">❌</span>
+                                <span class="font-medium text-red-700">ขาดเรียน</span>
+                            </span>
+                        </label>
+                        <label
+                            class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <input type="radio" name="newStatus" value="มาสาย"
+                                class="mr-3 text-yellow-600 focus:ring-yellow-500">
+                            <span class="flex items-center">
+                                <span class="text-lg mr-2">⏰</span>
+                                <span class="font-medium text-yellow-700">มาสาย</span>
+                            </span>
+                        </label>
+                        <label
+                            class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <input type="radio" name="newStatus" value="ลาป่วย"
+                                class="mr-3 text-blue-600 focus:ring-blue-500">
+                            <span class="flex items-center">
+                                <span class="text-lg mr-2">🏥</span>
+                                <span class="font-medium text-blue-700">ลาป่วย</span>
+                            </span>
+                        </label>
+                        <label
+                            class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <input type="radio" name="newStatus" value="ลากิจ"
+                                class="mr-3 text-purple-600 focus:ring-purple-500">
+                            <span class="flex items-center">
+                                <span class="text-lg mr-2">📋</span>
+                                <span class="font-medium text-purple-700">ลากิจ</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-3">
+                    <button onclick="saveStatusEdit()"
+                        class="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200">
+                        💾 บันทึกการแก้ไข
+                    </button>
+                    <button onclick="closeEditStatus()"
+                        class="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-medium py-3 px-4 rounded-lg transition duration-200">
+                        ❌ ยกเลิก
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Student Statistics Modal -->
-    <div id="studentStatsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div id="studentStatsModal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div class="p-6 border-b border-gray-200">
                 <div class="flex justify-between items-center">
@@ -332,7 +481,7 @@
                     <button onclick="closeStudentStats()" class="text-gray-500 hover:text-gray-700 text-2xl">×</button>
                 </div>
             </div>
-            
+
             <div class="p-6">
                 <!-- Student Info -->
                 <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 mb-6">
@@ -356,13 +505,13 @@
                 <div class="bg-white border border-gray-200 rounded-lg p-4 mb-6">
                     <div class="flex items-center gap-4">
                         <label class="text-sm font-medium text-gray-700 whitespace-nowrap">📚 เลือกรายวิชา:</label>
-                        <select id="modalSubjectFilter" 
-                                class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                onchange="filterStudentStatsBySubject()">
+                        <select id="modalSubjectFilter"
+                            class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                            onchange="filterStudentStatsBySubject()">
                             <option value="">ทุกรายวิชา</option>
                         </select>
-                        <button onclick="clearSubjectFilter()" 
-                                class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap">
+                        <button onclick="clearSubjectFilter()"
+                            class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap">
                             🔄 ล้าง
                         </button>
                     </div>
@@ -444,16 +593,16 @@
         let currentDisplayedRecords = [];
         let currentStudentSort = { field: null, direction: 'asc' };
         let currentDisplayedStudents = [];
+        let selectedRecords = new Set();
 
         // Show message function
         function showMessage(text, type = 'success') {
             const messageEl = document.getElementById('message');
             messageEl.textContent = text;
-            messageEl.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg transition-transform duration-300 z-50 ${
-                type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
-            }`;
+            messageEl.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg transition-transform duration-300 z-50 ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+                }`;
             messageEl.style.transform = 'translateX(0)';
-            
+
             setTimeout(() => {
                 messageEl.style.transform = 'translateX(100%)';
             }, 3000);
@@ -477,18 +626,18 @@
         // Add student form
         document.getElementById('studentForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const studentId = document.getElementById('newStudentId').value;
             const studentName = document.getElementById('newStudentName').value;
             const gradeLevel = document.getElementById('newGradeLevel').value;
-            
+
             // Check if student ID already exists
             const existingStudent = students.find(s => s.studentId === studentId);
             if (existingStudent) {
                 showMessage('รหัสนักเรียนนี้มีอยู่แล้ว! ❌', 'error');
                 return;
             }
-            
+
             const studentData = {
                 studentId,
                 studentName,
@@ -511,7 +660,7 @@
         async function loadStudents() {
             try {
                 const snapshot = await db.collection('students').get();
-                
+
                 students = [];
                 snapshot.forEach((doc) => {
                     students.push({
@@ -519,7 +668,7 @@
                         ...doc.data()
                     });
                 });
-                
+
                 // Sort students manually after loading
                 students.sort((a, b) => {
                     if (a.gradeLevel !== b.gradeLevel) {
@@ -527,7 +676,7 @@
                     }
                     return a.studentName.localeCompare(b.studentName);
                 });
-                
+
                 displayStudents();
                 updateGradeOptions();
                 updateStudentGradeFilter();
@@ -544,7 +693,7 @@
                 el.textContent = '↕️';
                 el.className = 'text-gray-400';
             });
-            
+
             // Determine sort direction
             if (currentStudentSort.field === field) {
                 currentStudentSort.direction = currentStudentSort.direction === 'asc' ? 'desc' : 'asc';
@@ -552,19 +701,19 @@
                 currentStudentSort.field = field;
                 currentStudentSort.direction = 'asc'; // Default to ascending
             }
-            
+
             // Update sort indicator
             const sortIndicator = document.getElementById(`sort-student-${field}`);
             if (sortIndicator) {
                 sortIndicator.textContent = currentStudentSort.direction === 'asc' ? '↑' : '↓';
                 sortIndicator.className = 'text-indigo-600';
             }
-            
+
             // Sort the currently displayed students
             const sortedStudents = [...currentDisplayedStudents].sort((a, b) => {
                 let aValue = a[field] || '';
                 let bValue = b[field] || '';
-                
+
                 // Special handling for different field types
                 if (field === 'studentId') {
                     // Convert to numbers for proper numeric sorting
@@ -575,14 +724,14 @@
                     aValue = aValue.toString().toLowerCase();
                     bValue = bValue.toString().toLowerCase();
                 }
-                
+
                 if (currentStudentSort.direction === 'asc') {
                     return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
                 } else {
                     return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
                 }
             });
-            
+
             displayStudents(sortedStudents);
         }
 
@@ -590,13 +739,13 @@
         function displayStudents(studentsToShow = students) {
             currentDisplayedStudents = studentsToShow; // Store current students for sorting
             const tableBody = document.getElementById('studentsTable');
-            
+
             if (studentsToShow.length === 0) {
                 const selectedGrade = document.getElementById('studentGradeFilter').value;
-                const message = selectedGrade ? 
-                    `ไม่พบนักเรียนในระดับชั้น ${selectedGrade}` : 
+                const message = selectedGrade ?
+                    `ไม่พบนักเรียนในระดับชั้น ${selectedGrade}` :
                     'ยังไม่มีข้อมูลนักเรียน';
-                
+
                 tableBody.innerHTML = `
                     <tr>
                         <td colspan="4" class="px-4 py-8 text-center text-gray-500">
@@ -632,12 +781,12 @@
         // Filter students by grade
         function filterStudentsByGrade() {
             const selectedGrade = document.getElementById('studentGradeFilter').value;
-            
+
             if (!selectedGrade) {
                 displayStudents(students);
                 return;
             }
-            
+
             const filteredStudents = students.filter(student => student.gradeLevel === selectedGrade);
             displayStudents(filteredStudents);
         }
@@ -652,7 +801,7 @@
         function updateStudentGradeFilter() {
             const gradeFilter = document.getElementById('studentGradeFilter');
             const uniqueGrades = [...new Set(students.map(s => s.gradeLevel))].sort();
-            
+
             const currentValue = gradeFilter.value;
             gradeFilter.innerHTML = '<option value="">ทุกระดับชั้น</option>';
             uniqueGrades.forEach(grade => {
@@ -662,15 +811,37 @@
         }
 
         // Delete student
+        // Delete student (ใช้ SweetAlert2)
         async function deleteStudent(studentId) {
-            if (confirm('คุณต้องการลบนักเรียนคนนี้หรือไม่?')) {
+            const result = await Swal.fire({
+                title: 'ยืนยันการลบ',
+                text: "คุณต้องการลบนักเรียนคนนี้หรือไม่?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'ลบเลย',
+                cancelButtonText: 'ยกเลิก'
+            });
+
+            if (result.isConfirmed) {
                 try {
                     await db.collection('students').doc(studentId).delete();
-                    showMessage('ลบนักเรียนเรียบร้อยแล้ว! 🗑️');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'ลบสำเร็จ!',
+                        text: 'ลบนักเรียนเรียบร้อยแล้ว 🗑️',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
                     loadStudents();
                 } catch (error) {
                     console.error('Error deleting student: ', error);
-                    showMessage('เกิดข้อผิดพลาดในการลบนักเรียน ❌', 'error');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด ❌',
+                        text: 'ไม่สามารถลบนักเรียนได้'
+                    });
                 }
             }
         }
@@ -679,12 +850,12 @@
         function updateGradeOptions() {
             const gradeSelect = document.getElementById('gradeSelect');
             const uniqueGrades = [...new Set(students.map(s => s.gradeLevel))].sort();
-            
+
             gradeSelect.innerHTML = '<option value="">เลือกระดับชั้น</option>';
             uniqueGrades.forEach(grade => {
                 gradeSelect.innerHTML += `<option value="${grade}">${grade}</option>`;
             });
-            
+
             // Update filter grade options
             updateFilterOptions();
         }
@@ -694,18 +865,18 @@
             // Update grade filter
             const filterGrade = document.getElementById('filterGrade');
             const uniqueGrades = [...new Set(attendanceRecords.map(r => r.gradeLevel).filter(g => g))].sort();
-            
+
             const currentGradeValue = filterGrade.value;
             filterGrade.innerHTML = '<option value="">ทุกระดับชั้น</option>';
             uniqueGrades.forEach(grade => {
                 filterGrade.innerHTML += `<option value="${grade}">${grade}</option>`;
             });
             filterGrade.value = currentGradeValue;
-            
+
             // Update subject filter
             const filterSubject = document.getElementById('filterSubject');
             const uniqueSubjects = [...new Set(attendanceRecords.map(r => r.subject).filter(s => s))].sort();
-            
+
             const currentSubjectValue = filterSubject.value;
             filterSubject.innerHTML = '<option value="">ทุกรายวิชา</option>';
             uniqueSubjects.forEach(subject => {
@@ -718,20 +889,20 @@
         document.getElementById('gradeSelect').addEventListener('change', (e) => {
             const selectedGrade = e.target.value;
             const studentsSection = document.getElementById('studentsAttendanceSection');
-            
+
             if (!selectedGrade) {
                 studentsSection.classList.add('hidden');
                 return;
             }
-            
+
             const gradeStudents = students.filter(s => s.gradeLevel === selectedGrade);
-            
+
             if (gradeStudents.length === 0) {
                 showMessage('ไม่พบนักเรียนในระดับชั้นนี้ ❌', 'error');
                 studentsSection.classList.add('hidden');
                 return;
             }
-            
+
             displayStudentsForAttendance(gradeStudents);
             studentsSection.classList.remove('hidden');
         });
@@ -739,7 +910,7 @@
         // Display students for attendance recording
         function displayStudentsForAttendance(gradeStudents) {
             const container = document.getElementById('studentsAttendanceList');
-            
+
             container.innerHTML = gradeStudents.map(student => `
                 <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
                     <div class="flex flex-col space-y-3">
@@ -767,7 +938,7 @@
         function setAllStatus(status) {
             const selectedGrade = document.getElementById('gradeSelect').value;
             if (!selectedGrade) return;
-            
+
             const gradeStudents = students.filter(s => s.gradeLevel === selectedGrade);
             gradeStudents.forEach(student => {
                 const statusSelect = document.getElementById(`status_${student.studentId}`);
@@ -775,7 +946,7 @@
                     statusSelect.value = status;
                 }
             });
-            
+
             showMessage(`ตั้งค่าสถานะทั้งหมดเป็น "${status}" แล้ว! ✅`);
         }
 
@@ -784,30 +955,30 @@
             const selectedGrade = document.getElementById('gradeSelect').value;
             const subject = document.getElementById('subject').value;
             const selectedDate = document.getElementById('attendanceDate').value;
-            
+
             if (!selectedGrade || !subject || !selectedDate) {
                 showMessage('กรุณากรอกข้อมูลให้ครบถ้วน ❌', 'error');
                 return;
             }
-            
+
             const gradeStudents = students.filter(s => s.gradeLevel === selectedGrade);
             const attendanceData = [];
             let hasEmptyStatus = false;
-            
+
             // Collect all attendance data
             gradeStudents.forEach(student => {
                 const statusSelect = document.getElementById(`status_${student.studentId}`);
                 const status = statusSelect ? statusSelect.value : '';
-                
+
                 if (!status) {
                     hasEmptyStatus = true;
                     return;
                 }
-                
+
                 // Convert selected date to Thai format for display
                 const dateObj = new Date(selectedDate + 'T00:00:00');
                 const thaiDate = dateObj.toLocaleDateString('th-TH');
-                
+
                 const now = new Date();
                 attendanceData.push({
                     studentId: student.studentId,
@@ -821,39 +992,39 @@
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
             });
-            
+
             if (hasEmptyStatus) {
                 showMessage('กรุณาเลือกสถานะให้ครบทุกคน ❌', 'error');
                 return;
             }
-            
+
             if (attendanceData.length === 0) {
                 showMessage('ไม่มีข้อมูลให้บันทึก ❌', 'error');
                 return;
             }
-            
+
             // Save all records to Firebase
             try {
                 const batch = db.batch();
-                
+
                 attendanceData.forEach(data => {
                     const docRef = db.collection('attendance').doc();
                     batch.set(docRef, data);
                 });
-                
+
                 await batch.commit();
-                
+
                 showMessage(`บันทึกการเข้าเรียนสำเร็จ! จำนวน ${attendanceData.length} คน ✅`);
-                
+
                 // Reset form
                 document.getElementById('gradeSelect').value = '';
                 document.getElementById('subject').value = '';
                 document.getElementById('studentsAttendanceSection').classList.add('hidden');
                 setTodayAsDefaultForForm();
-                
+
                 // Reload attendance records
                 loadAttendanceRecords();
-                
+
             } catch (error) {
                 console.error('Error saving attendance: ', error);
                 showMessage('เกิดข้อผิดพลาดในการบันทึกข้อมูล ❌', 'error');
@@ -866,7 +1037,7 @@
                 const snapshot = await db.collection('attendance')
                     .orderBy('timestamp', 'desc')
                     .get();
-                
+
                 attendanceRecords = [];
                 snapshot.forEach((doc) => {
                     attendanceRecords.push({
@@ -874,7 +1045,7 @@
                         ...doc.data()
                     });
                 });
-                
+
                 updateFilterOptions();
                 displayAttendanceRecords(attendanceRecords);
                 updateStatistics();
@@ -891,7 +1062,7 @@
                 el.textContent = '↕️';
                 el.className = 'text-gray-400';
             });
-            
+
             // Determine sort direction
             if (currentSort.field === field) {
                 currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
@@ -899,19 +1070,19 @@
                 currentSort.field = field;
                 currentSort.direction = field === 'studentId' ? 'desc' : 'asc'; // Default รหัสนักเรียน to descending
             }
-            
+
             // Update sort indicator
             const sortIndicator = document.getElementById(`sort-${field}`);
             if (sortIndicator) {
                 sortIndicator.textContent = currentSort.direction === 'asc' ? '↑' : '↓';
                 sortIndicator.className = 'text-indigo-600';
             }
-            
+
             // Sort the currently displayed records
             const sortedRecords = [...currentDisplayedRecords].sort((a, b) => {
                 let aValue = a[field] || '';
                 let bValue = b[field] || '';
-                
+
                 // Special handling for different field types
                 if (field === 'studentId') {
                     // Convert to numbers for proper numeric sorting
@@ -930,17 +1101,17 @@
                     aValue = aValue.toString().toLowerCase();
                     bValue = bValue.toString().toLowerCase();
                 }
-                
+
                 if (currentSort.direction === 'asc') {
                     return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
                 } else {
                     return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
                 }
             });
-            
+
             displayAttendanceRecords(sortedRecords);
         }
-        
+
         // Helper function to convert Thai date to sortable format
         function convertThaiDateToSortable(thaiDate) {
             if (!thaiDate) return '';
@@ -953,7 +1124,7 @@
             }
             return thaiDate;
         }
-        
+
         // Helper function to convert time to sortable format
         function convertTimeToSortable(time) {
             if (!time) return '';
@@ -968,15 +1139,112 @@
             return 0;
         }
 
+        // Toggle select all records
+        function toggleSelectAll() {
+            const selectAllCheckbox = document.getElementById('selectAll');
+            const recordCheckboxes = document.querySelectorAll('.record-checkbox');
+
+            if (selectAllCheckbox.checked) {
+                // Select all visible records
+                recordCheckboxes.forEach(checkbox => {
+                    checkbox.checked = true;
+                    selectedRecords.add(checkbox.value);
+                });
+            } else {
+                // Deselect all
+                recordCheckboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                selectedRecords.clear();
+            }
+
+            updateBulkDeleteControls();
+        }
+
+        // Toggle individual record selection
+        function toggleRecordSelection(recordId, checkbox) {
+            if (checkbox.checked) {
+                selectedRecords.add(recordId);
+            } else {
+                selectedRecords.delete(recordId);
+                document.getElementById('selectAll').checked = false;
+            }
+
+            updateBulkDeleteControls();
+        }
+
+        // Update bulk delete controls visibility and count
+        function updateBulkDeleteControls() {
+            const bulkControls = document.getElementById('bulkDeleteControls');
+            const selectedCount = document.getElementById('selectedCount');
+
+            if (selectedRecords.size > 0) {
+                bulkControls.classList.remove('hidden');
+                selectedCount.textContent = selectedRecords.size;
+            } else {
+                bulkControls.classList.add('hidden');
+                selectedCount.textContent = '0';
+            }
+        }
+
+        // Clear selection
+        function clearSelection() {
+            selectedRecords.clear();
+            document.getElementById('selectAll').checked = false;
+            document.querySelectorAll('.record-checkbox').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            updateBulkDeleteControls();
+        }
+
+        // Delete selected records
+        async function deleteSelectedRecords() {
+            if (selectedRecords.size === 0) {
+                showMessage('กรุณาเลือกรายการที่ต้องการลบ ❌', 'error');
+                return;
+            }
+
+            const confirmMessage = `คุณต้องการลบข้อมูล ${selectedRecords.size} รายการที่เลือกหรือไม่?`;
+            if (!confirm(confirmMessage)) {
+                return;
+            }
+
+            try {
+                const batch = db.batch();
+
+                selectedRecords.forEach(recordId => {
+                    const docRef = db.collection('attendance').doc(recordId);
+                    batch.delete(docRef);
+                });
+
+                await batch.commit();
+
+                showMessage(`ลบข้อมูลเรียบร้อยแล้ว! จำนวน ${selectedRecords.size} รายการ 🗑️`);
+
+                // Clear selection and reload data
+                clearSelection();
+                loadAttendanceRecords();
+
+            } catch (error) {
+                console.error('Error deleting records: ', error);
+                showMessage('เกิดข้อผิดพลาดในการลบข้อมูล ❌', 'error');
+            }
+        }
+
         // Display attendance records
         function displayAttendanceRecords(records) {
             currentDisplayedRecords = records; // Store current records for sorting
             const tableBody = document.getElementById('attendanceTable');
-            
+
+            // Clear selection when displaying new records
+            selectedRecords.clear();
+            document.getElementById('selectAll').checked = false;
+            updateBulkDeleteControls();
+
             if (records.length === 0) {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="8" class="px-4 py-8 text-center text-gray-500">
+                        <td colspan="9" class="px-4 py-8 text-center text-gray-500">
                             <div class="flex flex-col items-center">
                                 <div class="text-4xl mb-2">📋</div>
                                 <p>ยังไม่มีข้อมูลการเข้าเรียน</p>
@@ -1006,6 +1274,11 @@
 
                 return `
                     <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="px-4 py-3">
+                            <input type="checkbox" value="${record.id}" 
+                                   class="record-checkbox w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2"
+                                   onchange="toggleRecordSelection('${record.id}', this)">
+                        </td>
                         <td class="px-4 py-3 font-medium">${record.studentId}</td>
                         <td class="px-4 py-3">
                             <button onclick="showStudentStats('${record.studentId}', '${record.studentName}', '${record.gradeLevel || 'ไม่ระบุ'}')" 
@@ -1020,9 +1293,16 @@
                         </td>
                         <td class="px-4 py-3">${record.subject}</td>
                         <td class="px-4 py-3">
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${statusColor[record.status] || 'text-gray-600 bg-gray-100'}">
-                                ${statusEmoji[record.status] || '📝'} ${record.status}
-                            </span>
+                            <div class="flex items-center gap-2">
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${statusColor[record.status] || 'text-gray-600 bg-gray-100'}">
+                                    ${statusEmoji[record.status] || '📝'} ${record.status}
+                                </span>
+                                <button onclick="editStatus('${record.id}', '${record.status}')" 
+                                        class="text-blue-600 hover:text-blue-800 text-xs font-medium ml-1" 
+                                        title="แก้ไขสถานะ">
+                                    ✏️
+                                </button>
+                            </div>
                         </td>
                         <td class="px-4 py-3 text-sm text-gray-600">${record.date}</td>
                         <td class="px-4 py-3 text-sm text-gray-600">${record.time}</td>
@@ -1038,18 +1318,41 @@
         }
 
         // Delete record
+        // Delete record (ใช้ SweetAlert2)
         async function deleteRecord(recordId) {
-            if (confirm('คุณต้องการลบข้อมูลนี้หรือไม่?')) {
+            const result = await Swal.fire({
+                title: 'ยืนยันการลบ',
+                text: "คุณต้องการลบข้อมูลนี้หรือไม่?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'ลบเลย',
+                cancelButtonText: 'ยกเลิก'
+            });
+
+            if (result.isConfirmed) {
                 try {
                     await db.collection('attendance').doc(recordId).delete();
-                    showMessage('ลบข้อมูลเรียบร้อยแล้ว! 🗑️');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'สำเร็จ!',
+                        text: 'ลบข้อมูลเรียบร้อยแล้ว 🗑️',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
                     loadAttendanceRecords();
                 } catch (error) {
                     console.error('Error deleting record: ', error);
-                    showMessage('เกิดข้อผิดพลาดในการลบข้อมูล ❌', 'error');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด ❌',
+                        text: 'ไม่สามารถลบข้อมูลได้'
+                    });
                 }
             }
         }
+
 
         // Update statistics
         function updateStatistics(records = attendanceRecords) {
@@ -1083,12 +1386,12 @@
             const dateFilter = document.getElementById('dateFilter').value;
 
             const filteredRecords = attendanceRecords.filter(record => {
-                const matchStudent = record.studentName.toLowerCase().includes(searchStudent) || 
-                                   record.studentId.toLowerCase().includes(searchStudent);
+                const matchStudent = record.studentName.toLowerCase().includes(searchStudent) ||
+                    record.studentId.toLowerCase().includes(searchStudent);
                 const matchGrade = !filterGrade || record.gradeLevel === filterGrade;
                 const matchSubject = !filterSubject || record.subject === filterSubject;
                 const matchStatus = !filterStatus || record.status === filterStatus;
-                
+
                 // Date filtering
                 let matchDate = true;
                 if (dateFilter) {
@@ -1123,7 +1426,7 @@
             document.getElementById('filterSubject').value = '';
             document.getElementById('filterStatus').value = '';
             document.getElementById('searchStudent').value = '';
-            
+
             displayAttendanceRecords(attendanceRecords);
             updateStatistics(attendanceRecords);
         }
@@ -1157,10 +1460,16 @@
             allRecords: []
         };
 
+        // Global variable to store current edit data
+        let currentEditData = {
+            recordId: '',
+            currentStatus: ''
+        };
+
         // Show student statistics
         function showStudentStats(studentId, studentName, gradeLevel) {
             const studentRecords = attendanceRecords.filter(record => record.studentId === studentId);
-            
+
             // Store current student data globally
             currentStudentData = {
                 studentId,
@@ -1168,25 +1477,25 @@
                 gradeLevel,
                 allRecords: studentRecords
             };
-            
+
             // Update modal header
             document.getElementById('modalStudentName').textContent = `📊 สถิติการเข้าเรียน - ${studentName}`;
             document.getElementById('modalStudentId').textContent = studentId;
             document.getElementById('modalStudentGrade').textContent = gradeLevel;
-            
+
             // Populate subject filter dropdown
             const subjectFilter = document.getElementById('modalSubjectFilter');
             const uniqueSubjects = [...new Set(studentRecords.map(r => r.subject).filter(s => s))].sort();
-            
+
             subjectFilter.innerHTML = '<option value="">ทุกรายวิชา</option>';
             uniqueSubjects.forEach(subject => {
                 subjectFilter.innerHTML += `<option value="${subject}">${subject}</option>`;
             });
-            
+
             // Reset filter and display all records
             subjectFilter.value = '';
             updateStudentStatsDisplay(studentRecords);
-            
+
             // Show modal
             document.getElementById('studentStatsModal').classList.remove('hidden');
         }
@@ -1194,12 +1503,12 @@
         // Filter student statistics by subject
         function filterStudentStatsBySubject() {
             const selectedSubject = document.getElementById('modalSubjectFilter').value;
-            
+
             let filteredRecords = currentStudentData.allRecords;
             if (selectedSubject) {
                 filteredRecords = currentStudentData.allRecords.filter(record => record.subject === selectedSubject);
             }
-            
+
             updateStudentStatsDisplay(filteredRecords);
         }
 
@@ -1213,7 +1522,7 @@
         function updateStudentStatsDisplay(records) {
             // Update total records count
             document.getElementById('modalTotalRecords').textContent = records.length;
-            
+
             // Calculate statistics
             const stats = {
                 'มาเรียน': 0,
@@ -1222,35 +1531,35 @@
                 'ลาป่วย': 0,
                 'ลากิจ': 0
             };
-            
+
             records.forEach(record => {
                 if (stats.hasOwnProperty(record.status)) {
                     stats[record.status]++;
                 }
             });
-            
+
             const total = records.length;
-            
+
             // Update statistics with percentages
             document.getElementById('modalPresentCount').textContent = stats['มาเรียน'];
             document.getElementById('modalPresentPercent').textContent = total > 0 ? `${Math.round((stats['มาเรียน'] / total) * 100)}%` : '0%';
-            
+
             document.getElementById('modalAbsentCount').textContent = stats['ขาดเรียน'];
             document.getElementById('modalAbsentPercent').textContent = total > 0 ? `${Math.round((stats['ขาดเรียน'] / total) * 100)}%` : '0%';
-            
+
             document.getElementById('modalLateCount').textContent = stats['มาสาย'];
             document.getElementById('modalLatePercent').textContent = total > 0 ? `${Math.round((stats['มาสาย'] / total) * 100)}%` : '0%';
-            
+
             document.getElementById('modalSickCount').textContent = stats['ลาป่วย'];
             document.getElementById('modalSickPercent').textContent = total > 0 ? `${Math.round((stats['ลาป่วย'] / total) * 100)}%` : '0%';
-            
+
             document.getElementById('modalLeaveCount').textContent = stats['ลากิจ'];
             document.getElementById('modalLeavePercent').textContent = total > 0 ? `${Math.round((stats['ลากิจ'] / total) * 100)}%` : '0%';
-            
+
             // Show recent records (last 10)
             const recentRecords = records.slice(0, 10);
             const recentTableBody = document.getElementById('modalRecentRecords');
-            
+
             if (recentRecords.length === 0) {
                 recentTableBody.innerHTML = `
                     <tr>
@@ -1270,7 +1579,7 @@
                     'ลาป่วย': '🏥',
                     'ลากิจ': '📋'
                 };
-                
+
                 const statusColor = {
                     'มาเรียน': 'text-green-600 bg-green-100',
                     'ขาดเรียน': 'text-red-600 bg-red-100',
@@ -1278,7 +1587,7 @@
                     'ลาป่วย': 'text-blue-600 bg-blue-100',
                     'ลากิจ': 'text-purple-600 bg-purple-100'
                 };
-                
+
                 recentTableBody.innerHTML = recentRecords.map(record => `
                     <tr class="border-b border-gray-200">
                         <td class="px-3 py-2 text-sm font-medium">${record.subject}</td>
@@ -1293,16 +1602,117 @@
                 `).join('');
             }
         }
-        
+
         // Close student statistics modal
         function closeStudentStats() {
             document.getElementById('studentStatsModal').classList.add('hidden');
         }
-        
+
         // Close modal when clicking outside
         document.getElementById('studentStatsModal').addEventListener('click', (e) => {
             if (e.target.id === 'studentStatsModal') {
                 closeStudentStats();
+            }
+        });
+
+        // Edit status functionality
+        function editStatus(recordId, currentStatus) {
+            // Find the record to edit
+            const record = attendanceRecords.find(r => r.id === recordId);
+            if (!record) {
+                showMessage('ไม่พบข้อมูลที่ต้องการแก้ไข ❌', 'error');
+                return;
+            }
+
+            // Store current edit data
+            currentEditData = {
+                recordId: recordId,
+                currentStatus: currentStatus
+            };
+
+            // Populate modal with record information
+            document.getElementById('editStudentId').textContent = record.studentId;
+            document.getElementById('editStudentName').textContent = record.studentName;
+            document.getElementById('editSubject').textContent = record.subject;
+            document.getElementById('editDate').textContent = record.date;
+
+            // Set current status as selected
+            const statusRadios = document.querySelectorAll('input[name="newStatus"]');
+            statusRadios.forEach(radio => {
+                radio.checked = radio.value === currentStatus;
+                // Highlight current status
+                const label = radio.closest('label');
+                if (radio.value === currentStatus) {
+                    label.classList.add('bg-blue-50', 'border-blue-300');
+                } else {
+                    label.classList.remove('bg-blue-50', 'border-blue-300');
+                }
+            });
+
+            // Show modal
+            document.getElementById('editStatusModal').classList.remove('hidden');
+        }
+
+        // Save status edit
+        async function saveStatusEdit() {
+            const selectedStatus = document.querySelector('input[name="newStatus"]:checked');
+
+            if (!selectedStatus) {
+                showMessage('กรุณาเลือกสถานะใหม่ ❌', 'error');
+                return;
+            }
+
+            const newStatus = selectedStatus.value;
+
+            // Check if status actually changed
+            if (newStatus === currentEditData.currentStatus) {
+                showMessage('สถานะไม่มีการเปลี่ยนแปลง ℹ️', 'error');
+                closeEditStatus();
+                return;
+            }
+
+            try {
+                // Update the record in Firebase
+                await db.collection('attendance').doc(currentEditData.recordId).update({
+                    status: newStatus,
+                    lastModified: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                showMessage(`แก้ไขสถานะเป็น "${newStatus}" เรียบร้อยแล้ว! ✅`);
+
+                // Close modal and reload data
+                closeEditStatus();
+                loadAttendanceRecords();
+
+            } catch (error) {
+                console.error('Error updating status: ', error);
+                showMessage('เกิดข้อผิดพลาดในการแก้ไขสถานะ ❌', 'error');
+            }
+        }
+
+        // Close edit status modal
+        function closeEditStatus() {
+            document.getElementById('editStatusModal').classList.add('hidden');
+
+            // Reset radio buttons
+            const statusRadios = document.querySelectorAll('input[name="newStatus"]');
+            statusRadios.forEach(radio => {
+                radio.checked = false;
+                const label = radio.closest('label');
+                label.classList.remove('bg-blue-50', 'border-blue-300');
+            });
+
+            // Clear edit data
+            currentEditData = {
+                recordId: '',
+                currentStatus: ''
+            };
+        }
+
+        // Close edit modal when clicking outside
+        document.getElementById('editStatusModal').addEventListener('click', (e) => {
+            if (e.target.id === 'editStatusModal') {
+                closeEditStatus();
             }
         });
 
@@ -1311,11 +1721,13 @@
         loadAttendanceRecords();
         setTodayAsDefault();
         setTodayAsDefaultForForm();
-        
+
         // Filter records to show today's data by default
         setTimeout(() => {
             filterRecords();
         }, 1000);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97206ff7240f893b',t:'MTc1NTY3NzY3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9720894d52fd8943',t:'MTc1NTY3ODcwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+</body>
+
 </html>
