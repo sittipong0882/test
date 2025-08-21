@@ -58,15 +58,9 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">ระดับชั้น</label>
-                    <select id="newGradeLevel" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                        <option value="">เลือกระดับชั้น</option>
-                        <option value="ปวช1">ปวช1</option>
-                        <option value="ปวช2">ปวช2</option>
-                        <option value="ปวช3">ปวช3</option>
-                        <option value="ปวส1">ปวส1</option>
-                        <option value="ปวส2">ปวส2</option>
-                    </select>
+                    <input type="text" id="newGradeLevel" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="เช่น ปวช1, ปวส2, ม.6, ป.1">
                 </div>
                 <div class="md:col-span-3">
                     <button type="submit"
@@ -811,7 +805,6 @@
         }
 
         // Delete student
-        // Delete student (ใช้ SweetAlert2)
         async function deleteStudent(studentId) {
             const result = await Swal.fire({
                 title: 'ยืนยันการลบ',
@@ -1727,7 +1720,7 @@
             filterRecords();
         }, 1000);
     </script>
-    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9720894d52fd8943',t:'MTc1NTY3ODcwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'97267f5c17e78967',t:'MTc1NTc0MTIxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
 </body>
 
 </html>
