@@ -117,93 +117,56 @@
                     📝 บันทึกการเข้าเรียน
                 </button>
                 <button id="studentTab"
-                    class="flex-1 py-4 px-6 text-center font-medium text-gray-500 hover:text-indigo-600">
+                    class="flex-1 py-4 px-6 text-center font-medium text-gray-500 hover:text-indigo-600 hidden">
                     👥 จัดการนักเรียน
+                </button>
+                <button id="subjectTab"
+                    class="flex-1 py-4 px-6 text-center font-medium text-gray-500 hover:text-indigo-600 hidden">
+                    📚 แอดวิชา
                 </button>
             </div>
         </div>
-
-        <!-- Student Management Section -->
-        <div id="studentSection" class="bg-white rounded-xl shadow-lg p-6 mb-8 hidden">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">👥 เพิ่มนักเรียนใหม่</h2>
-            <form id="studentForm" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <!-- Subject Management Section -->
+        <div id="subjectSection" class="bg-white rounded-xl shadow-lg p-6 mb-8 hidden">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">📚 เพิ่มวิชาใหม่</h2>
+            <form id="subjectForm" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">รหัสนักเรียน</label>
-                    <input type="text" id="newStudentId" required
+                    <label class="block text-sm font-medium text-gray-700 mb-2">รหัสวิชา</label>
+                    <input type="text" id="newSubjectId" required
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                        placeholder="เช่น 65001">
+                        placeholder="เช่น 101">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">ชื่อ-นามสกุล</label>
-                    <input type="text" id="newStudentName" required
+                    <label class="block text-sm font-medium text-gray-700 mb-2">ชื่อวิชา</label>
+                    <input type="text" id="newSubjectName" required
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                        placeholder="เช่น สมชาย ใจดี">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">ระดับชั้น</label>
-                    <input type="text" id="newGradeLevel" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                        placeholder="เช่น ปวช1, ปวส2, ม.6, ป.1">
+                        placeholder="เช่น คณิตศาสตร์">
                 </div>
                 <div class="md:col-span-3">
                     <button type="submit"
                         class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg transition duration-200 transform hover:scale-105">
-                        ➕ เพิ่มนักเรียน
+                        ➕ เพิ่มวิชา
                     </button>
                 </div>
             </form>
-
-            <!-- Students List -->
+            <!-- Subjects List -->
             <div class="mt-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800">📋 รายชื่อนักเรียน</h3>
-                    <div class="flex items-center gap-4">
-                        <label class="text-sm font-medium text-gray-700">🎓 กรองตามระดับชั้น:</label>
-                        <select id="studentGradeFilter"
-                            class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                            onchange="filterStudentsByGrade()">
-                            <option value="">ทุกระดับชั้น</option>
-                        </select>
-                        <button onclick="clearStudentFilter()"
-                            class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-sm">
-                            🔄 ล้าง
-                        </button>
-                    </div>
-                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">📋 รายวิชา</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full table-auto">
                         <thead>
                             <tr class="bg-gray-50">
-                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
-                                    onclick="sortStudents('studentId')">
-                                    <div class="flex items-center justify-between">
-                                        <span>รหัสนักเรียน</span>
-                                        <span id="sort-student-studentId" class="text-gray-400">↕️</span>
-                                    </div>
-                                </th>
-                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
-                                    onclick="sortStudents('studentName')">
-                                    <div class="flex items-center justify-between">
-                                        <span>ชื่อ-นามสกุล</span>
-                                        <span id="sort-student-studentName" class="text-gray-400">↕️</span>
-                                    </div>
-                                </th>
-                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
-                                    onclick="sortStudents('gradeLevel')">
-                                    <div class="flex items-center justify-between">
-                                        <span>ระดับชั้น</span>
-                                        <span id="sort-student-gradeLevel" class="text-gray-400">↕️</span>
-                                    </div>
-                                </th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">รหัสวิชา</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">ชื่อวิชา</th>
                                 <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">จัดการ</th>
                             </tr>
                         </thead>
-                        <tbody id="studentsTable">
+                        <tbody id="subjectsTable">
                             <tr>
-                                <td colspan="4" class="px-4 py-8 text-center text-gray-500">
+                                <td colspan="3" class="px-4 py-8 text-center text-gray-500">
                                     <div class="flex flex-col items-center">
-                                        <div class="text-4xl mb-2">👥</div>
-                                        <p>กำลังโหลดข้อมูลนักเรียน...</p>
+                                        <div class="text-4xl mb-2">📚</div>
+                                        <p>กำลังโหลดข้อมูลวิชา...</p>
                                     </div>
                                 </td>
                             </tr>
@@ -212,204 +175,90 @@
                 </div>
             </div>
         </div>
+    </div>
+ 
 
-        <!-- Attendance Form Section -->
-        <div id="attendanceSection" class="bg-white rounded-xl shadow-lg p-6 mb-8">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">📝 บันทึกการเข้าเรียน</h2>
-
-            <!-- Class Selection Form -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">📅 วันที่</label>
-                    <input type="date" id="attendanceDate" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">🎓 ระดับชั้น</label>
-                    <select id="gradeSelect" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                        <option value="">เลือกระดับชั้น</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">📚 วิชา</label>
-                    <input type="text" id="subject" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                        placeholder="เช่น คณิตศาสตร์">
-                </div>
+    <!-- Student Management Section -->
+    <div id="studentSection" class="bg-white rounded-xl shadow-lg p-6 mb-8 hidden">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">👥 เพิ่มนักเรียนใหม่</h2>
+        <form id="studentForm" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">รหัสนักเรียน</label>
+                <input type="text" id="newStudentId" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    placeholder="เช่น 65001">
             </div>
-
-            <!-- Students Attendance List -->
-            <div id="studentsAttendanceSection" class="hidden">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800">👥 รายชื่อนักเรียน</h3>
-                    <div class="flex gap-2">
-                        <button onclick="setAllStatus('มาเรียน')"
-                            class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
-                            ✅ ทั้งหมดมาเรียน
-                        </button>
-                        <button onclick="setAllStatus('ขาดเรียน')"
-                            class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
-                            ❌ ทั้งหมดขาดเรียน
-                        </button>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6" id="studentsAttendanceList">
-                    <!-- Students will be populated here -->
-                </div>
-
-                <div class="text-center">
-                    <button onclick="saveAllAttendance()"
-                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-8 rounded-lg transition duration-200 transform hover:scale-105 text-lg">
-                        💾 บันทึกการเข้าเรียนทั้งหมด
-                    </button>
-                </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">ชื่อ-นามสกุล</label>
+                <input type="text" id="newStudentName" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    placeholder="เช่น สมชาย ใจดี">
             </div>
-        </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">ระดับชั้น</label>
+                <input type="text" id="newGradeLevel" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    placeholder="เช่น ปวช1, ปวส2, ม.6, ป.1">
+            </div>
+            <div class="md:col-span-3">
+                <button type="submit"
+                    class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg transition duration-200 transform hover:scale-105">
+                    ➕ เพิ่มนักเรียน
+                </button>
+            </div>
+        </form>
 
-        <!-- Filter Section -->
-        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">🔍 ค้นหาและกรองข้อมูล</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">📅 เลือกวันที่</label>
-                    <input type="date" id="dateFilter"
-                        class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">🎓 ระดับชั้น</label>
-                    <select id="filterGrade"
-                        class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
+        <!-- Students List -->
+        <div class="mt-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-gray-800">📋 รายชื่อนักเรียน</h3>
+                <div class="flex items-center gap-4">
+                    <label class="text-sm font-medium text-gray-700">🎓 กรองตามระดับชั้น:</label>
+                    <select id="studentGradeFilter"
+                        class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        onchange="filterStudentsByGrade()">
                         <option value="">ทุกระดับชั้น</option>
                     </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">📚 รายวิชา</label>
-                    <select id="filterSubject"
-                        class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
-                        <option value="">ทุกรายวิชา</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">📊 สถานะ</label>
-                    <select id="filterStatus"
-                        class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
-                        <option value="">ทุกสถานะ</option>
-                        <option value="มาเรียน">มาเรียน</option>
-                        <option value="ขาดเรียน">ขาดเรียน</option>
-                        <option value="มาสาย">มาสาย</option>
-                        <option value="ลาป่วย">ลาป่วย</option>
-                        <option value="ลากิจ">ลากิจ</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">👤 ค้นหานักเรียน</label>
-                    <input type="text" id="searchStudent"
-                        class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full"
-                        placeholder="ชื่อหรือรหัส">
-                </div>
-                <div class="flex items-end">
-                    <button onclick="clearAllFilters()"
-                        class="w-full bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
-                        🔄 ล้างตัวกรอง
+                    <button onclick="clearStudentFilter()"
+                        class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-sm">
+                        🔄 ล้าง
                     </button>
                 </div>
             </div>
-        </div>
-
-        <!-- Attendance Records -->
-        <div class="bg-white rounded-xl shadow-lg p-6">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">📊 บันทึกการเข้าเรียน</h3>
             <div class="overflow-x-auto">
-                <!-- Bulk Delete Controls -->
-                <div id="bulkDeleteControls" class="hidden bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <span class="text-blue-800 font-medium">
-                                🗂️ เลือกแล้ว <span id="selectedCount" class="font-bold">0</span> รายการ
-                            </span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="deleteSelectedRecords()"
-                                class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
-                                🗑️ ลบที่เลือก
-                            </button>
-                            <button onclick="clearSelection()"
-                                class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
-                                ✖️ ยกเลิก
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
                 <table class="w-full table-auto">
                     <thead>
                         <tr class="bg-gray-50">
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">
-                                <input type="checkbox" id="selectAll"
-                                    class="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2"
-                                    onchange="toggleSelectAll()">
-                                <label for="selectAll" class="ml-2 text-xs">เลือกทั้งหมด</label>
-                            </th>
                             <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
-                                onclick="sortTable('studentId')">
+                                onclick="sortStudents('studentId')">
                                 <div class="flex items-center justify-between">
                                     <span>รหัสนักเรียน</span>
-                                    <span id="sort-studentId" class="text-gray-400">↕️</span>
+                                    <span id="sort-student-studentId" class="text-gray-400">↕️</span>
                                 </div>
                             </th>
                             <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
-                                onclick="sortTable('studentName')">
+                                onclick="sortStudents('studentName')">
                                 <div class="flex items-center justify-between">
                                     <span>ชื่อ-นามสกุล</span>
-                                    <span id="sort-studentName" class="text-gray-400">↕️</span>
+                                    <span id="sort-student-studentName" class="text-gray-400">↕️</span>
                                 </div>
                             </th>
                             <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
-                                onclick="sortTable('gradeLevel')">
+                                onclick="sortStudents('gradeLevel')">
                                 <div class="flex items-center justify-between">
                                     <span>ระดับชั้น</span>
-                                    <span id="sort-gradeLevel" class="text-gray-400">↕️</span>
-                                </div>
-                            </th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
-                                onclick="sortTable('subject')">
-                                <div class="flex items-center justify-between">
-                                    <span>วิชา</span>
-                                    <span id="sort-subject" class="text-gray-400">↕️</span>
-                                </div>
-                            </th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
-                                onclick="sortTable('status')">
-                                <div class="flex items-center justify-between">
-                                    <span>สถานะ</span>
-                                    <span id="sort-status" class="text-gray-400">↕️</span>
-                                </div>
-                            </th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
-                                onclick="sortTable('date')">
-                                <div class="flex items-center justify-between">
-                                    <span>วันที่</span>
-                                    <span id="sort-date" class="text-gray-400">↕️</span>
-                                </div>
-                            </th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
-                                onclick="sortTable('time')">
-                                <div class="flex items-center justify-between">
-                                    <span>เวลา</span>
-                                    <span id="sort-time" class="text-gray-400">↕️</span>
+                                    <span id="sort-student-gradeLevel" class="text-gray-400">↕️</span>
                                 </div>
                             </th>
                             <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">จัดการ</th>
                         </tr>
                     </thead>
-                    <tbody id="attendanceTable">
+                    <tbody id="studentsTable">
                         <tr>
-                            <td colspan="9" class="px-4 py-8 text-center text-gray-500">
+                            <td colspan="4" class="px-4 py-8 text-center text-gray-500">
                                 <div class="flex flex-col items-center">
-                                    <div class="text-4xl mb-2">📋</div>
-                                    <p>กำลังโหลดข้อมูล...</p>
+                                    <div class="text-4xl mb-2">👥</div>
+                                    <p>กำลังโหลดข้อมูลนักเรียน...</p>
                                 </div>
                             </td>
                         </tr>
@@ -417,30 +266,237 @@
                 </table>
             </div>
         </div>
+    </div>
 
-        <!-- Statistics -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mt-8">
-            <div class="bg-green-100 rounded-xl p-4 text-center">
-                <div class="text-2xl font-bold text-green-600" id="presentCount">0</div>
-                <div class="text-sm text-green-700">มาเรียน</div>
+    <!-- Attendance Form Section -->
+    <div id="attendanceSection" class="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">📝 บันทึกการเข้าเรียน</h2>
+
+        <!-- Class Selection Form -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">📅 วันที่</label>
+                <input type="date" id="attendanceDate" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
             </div>
-            <div class="bg-red-100 rounded-xl p-4 text-center">
-                <div class="text-2xl font-bold text-red-600" id="absentCount">0</div>
-                <div class="text-sm text-red-700">ขาดเรียน</div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">🎓 ระดับชั้น</label>
+                <select id="gradeSelect" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <option value="">เลือกระดับชั้น</option>
+                </select>
             </div>
-            <div class="bg-yellow-100 rounded-xl p-4 text-center">
-                <div class="text-2xl font-bold text-yellow-600" id="lateCount">0</div>
-                <div class="text-sm text-yellow-700">มาสาย</div>
-            </div>
-            <div class="bg-blue-100 rounded-xl p-4 text-center">
-                <div class="text-2xl font-bold text-blue-600" id="sickCount">0</div>
-                <div class="text-sm text-blue-700">ลาป่วย</div>
-            </div>
-            <div class="bg-purple-100 rounded-xl p-4 text-center">
-                <div class="text-2xl font-bold text-purple-600" id="leaveCount">0</div>
-                <div class="text-sm text-purple-700">ลากิจ</div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">📚 วิชา</label>
+                <select id="subjectSelect" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <option value="">เลือกวิชา</option>
+                </select>
             </div>
         </div>
+
+        <!-- Students Attendance List -->
+        <div id="studentsAttendanceSection" class="hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-gray-800">👥 รายชื่อนักเรียน</h3>
+                <div class="flex gap-2">
+                    <button onclick="setAllStatus('มาเรียน')"
+                        class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
+                        ✅ ทั้งหมดมาเรียน
+                    </button>
+                    <button onclick="setAllStatus('ขาดเรียน')"
+                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
+                        ❌ ทั้งหมดขาดเรียน
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6" id="studentsAttendanceList">
+                <!-- Students will be populated here -->
+            </div>
+
+            <div class="text-center">
+                <button onclick="saveAllAttendance()"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-8 rounded-lg transition duration-200 transform hover:scale-105 text-lg">
+                    💾 บันทึกการเข้าเรียนทั้งหมด
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div id="filterSection" class="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">🔍 ค้นหาและกรองข้อมูล</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">📅 เลือกวันที่</label>
+                <input type="date" id="dateFilter"
+                    class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">🎓 ระดับชั้น</label>
+                <select id="filterGrade"
+                    class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
+                    <option value="">ทุกระดับชั้น</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">📚 รายวิชา</label>
+                <select id="filterSubject"
+                    class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
+                    <option value="">ทุกรายวิชา</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">📊 สถานะ</label>
+                <select id="filterStatus"
+                    class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full">
+                    <option value="">ทุกสถานะ</option>
+                    <option value="มาเรียน">มาเรียน</option>
+                    <option value="ขาดเรียน">ขาดเรียน</option>
+                    <option value="มาสาย">มาสาย</option>
+                    <option value="ลาป่วย">ลาป่วย</option>
+                    <option value="ลากิจ">ลากิจ</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">👤 ค้นหานักเรียน</label>
+                <input type="text" id="searchStudent"
+                    class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-full"
+                    placeholder="ชื่อหรือรหัส">
+            </div>
+            <div class="flex items-end">
+                <button onclick="clearAllFilters()"
+                    class="w-full bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                    🔄 ล้างตัวกรอง
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attendance Records -->
+    <div id="attendanceRecordsSection" class="bg-white rounded-xl shadow-lg p-6">
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">📊 บันทึกการเข้าเรียน</h3>
+        <div class="overflow-x-auto">
+            <!-- Bulk Delete Controls -->
+            <div id="bulkDeleteControls" class="hidden bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <span class="text-blue-800 font-medium">
+                            🗂️ เลือกแล้ว <span id="selectedCount" class="font-bold">0</span> รายการ
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="deleteSelectedRecords()"
+                            class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                            🗑️ ลบที่เลือก
+                        </button>
+                        <button onclick="clearSelection()"
+                            class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                            ✖️ ยกเลิก
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <table class="w-full table-auto">
+                <thead>
+                    <tr class="bg-gray-50">
+                        <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                            <input type="checkbox" id="selectAll"
+                                class="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2"
+                                onchange="toggleSelectAll()">
+                            <label for="selectAll" class="ml-2 text-xs">เลือกทั้งหมด</label>
+                        </th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                            onclick="sortTable('studentId')">
+                            <div class="flex items-center justify-between">
+                                <span>รหัสนักเรียน</span>
+                                <span id="sort-studentId" class="text-gray-400">↕️</span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                            onclick="sortTable('studentName')">
+                            <div class="flex items-center justify-between">
+                                <span>ชื่อ-นามสกุล</span>
+                                <span id="sort-studentName" class="text-gray-400">↕️</span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                            onclick="sortTable('gradeLevel')">
+                            <div class="flex items-center justify-between">
+                                <span>ระดับชั้น</span>
+                                <span id="sort-gradeLevel" class="text-gray-400">↕️</span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                            onclick="sortTable('subject')">
+                            <div class="flex items-center justify-between">
+                                <span>วิชา</span>
+                                <span id="sort-subject" class="text-gray-400">↕️</span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                            onclick="sortTable('status')">
+                            <div class="flex items-center justify-between">
+                                <span>สถานะ</span>
+                                <span id="sort-status" class="text-gray-400">↕️</span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                            onclick="sortTable('date')">
+                            <div class="flex items-center justify-between">
+                                <span>วันที่</span>
+                                <span id="sort-date" class="text-gray-400">↕️</span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100 select-none"
+                            onclick="sortTable('time')">
+                            <div class="flex items-center justify-between">
+                                <span>เวลา</span>
+                                <span id="sort-time" class="text-gray-400">↕️</span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody id="attendanceTable">
+                    <tr>
+                        <td colspan="9" class="px-4 py-8 text-center text-gray-500">
+                            <div class="flex flex-col items-center">
+                                <div class="text-4xl mb-2">📋</div>
+                                <p>กำลังโหลดข้อมูล...</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mt-8">
+        <div class="bg-green-100 rounded-xl p-4 text-center">
+            <div class="text-2xl font-bold text-green-600" id="presentCount">0</div>
+            <div class="text-sm text-green-700">มาเรียน</div>
+        </div>
+        <div class="bg-red-100 rounded-xl p-4 text-center">
+            <div class="text-2xl font-bold text-red-600" id="absentCount">0</div>
+            <div class="text-sm text-red-700">ขาดเรียน</div>
+        </div>
+        <div class="bg-yellow-100 rounded-xl p-4 text-center">
+            <div class="text-2xl font-bold text-yellow-600" id="lateCount">0</div>
+            <div class="text-sm text-yellow-700">มาสาย</div>
+        </div>
+        <div class="bg-blue-100 rounded-xl p-4 text-center">
+            <div class="text-2xl font-bold text-blue-600" id="sickCount">0</div>
+            <div class="text-sm text-blue-700">ลาป่วย</div>
+        </div>
+        <div class="bg-purple-100 rounded-xl p-4 text-center">
+            <div class="text-2xl font-bold text-purple-600" id="leaveCount">0</div>
+            <div class="text-sm text-purple-700">ลากิจ</div>
+        </div>
+    </div>
     </div>
 
     <!-- Success/Error Messages -->
@@ -649,6 +705,140 @@
     </div>
 
     <script>
+        // Subject management variables
+        let subjects = [];
+        let currentDisplayedSubjects = [];
+
+        // Tab switching for subject
+        document.getElementById('subjectTab').addEventListener('click', () => {
+            document.getElementById('subjectSection').classList.remove('hidden');
+            document.getElementById('studentSection').classList.add('hidden');
+            document.getElementById('attendanceSection').classList.add('hidden');
+            document.getElementById('subjectTab').className = 'flex-1 py-4 px-6 text-center font-medium text-indigo-600 border-b-2 border-indigo-600';
+            document.getElementById('studentTab').className = 'flex-1 py-4 px-6 text-center font-medium text-gray-500 hover:text-indigo-600';
+            document.getElementById('attendanceTab').className = 'flex-1 py-4 px-6 text-center font-medium text-gray-500 hover:text-indigo-600';
+            loadSubjects();
+        });
+
+        // กลับไป tab อื่น ซ่อน subjectSection
+        // (เพิ่มใน tab อื่นด้วย)
+        document.getElementById('attendanceTab').addEventListener('click', () => {
+            document.getElementById('subjectSection').classList.add('hidden');
+        });
+        document.getElementById('studentTab').addEventListener('click', () => {
+            document.getElementById('subjectSection').classList.add('hidden');
+        });
+
+        // Add subject form
+        document.getElementById('subjectForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (currentUser.role !== 'admin') {
+                showMessage('คุณไม่มีสิทธิ์ในการเพิ่มวิชา ❌', 'error');
+                return;
+            }
+            const subjectId = document.getElementById('newSubjectId').value.trim();
+            const subjectName = document.getElementById('newSubjectName').value.trim();
+            if (!subjectId || !subjectName) {
+                showMessage('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
+                return;
+            }
+            // Check if subjectId already exists
+            const exists = subjects.find(s => s.subjectId === subjectId);
+            if (exists) {
+                showMessage('รหัสวิชานี้มีอยู่แล้ว! ❌', 'error');
+                return;
+            }
+            const subjectData = {
+                subjectId,
+                subjectName,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            try {
+                await db.collection('subjects').add(subjectData);
+                showMessage('เพิ่มวิชาเรียบร้อยแล้ว! ✅');
+                document.getElementById('subjectForm').reset();
+                loadSubjects();
+            } catch (error) {
+                console.error('Error adding subject: ', error);
+                showMessage('เกิดข้อผิดพลาดในการเพิ่มวิชา ❌', 'error');
+            }
+        });
+
+        // Load subjects
+        async function loadSubjects() {
+            try {
+                const snapshot = await db.collection('subjects').orderBy('subjectId').get();
+                subjects = [];
+                snapshot.forEach(doc => {
+                    subjects.push({ id: doc.id, ...doc.data() });
+                });
+                displaySubjects();
+                updateSubjectOptions();
+            } catch (error) {
+                console.error('Error loading subjects: ', error);
+                showMessage('เกิดข้อผิดพลาดในการโหลดข้อมูลวิชา ❌', 'error');
+            }
+        }
+
+        // Display subjects
+        function displaySubjects(subjectsToShow = subjects) {
+            currentDisplayedSubjects = subjectsToShow;
+            const tableBody = document.getElementById('subjectsTable');
+            const isAdmin = currentUser.role === 'admin';
+            if (subjectsToShow.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="3" class="px-4 py-8 text-center text-gray-500"><div class="flex flex-col items-center"><div class="text-4xl mb-2">📚</div><p>ยังไม่มีข้อมูลวิชา</p></div></td></tr>`;
+                return;
+            }
+            tableBody.innerHTML = subjectsToShow.map(subject => `
+                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                    <td class="px-4 py-3">${subject.subjectId}</td>
+                    <td class="px-4 py-3">${subject.subjectName}</td>
+                    <td class="px-4 py-3">
+                        ${isAdmin ? `<button onclick="deleteSubject('${subject.id}')" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">ลบ</button>` : ''}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // อัปเดต dropdown รายวิชาในฟอร์มบันทึกการเข้าเรียน
+        function updateSubjectOptions() {
+            const subjectSelect = document.getElementById('subjectSelect');
+            if (!subjectSelect) return;
+            const currentValue = subjectSelect.value;
+            subjectSelect.innerHTML = '<option value="">เลือกวิชา</option>';
+            subjects.forEach(subj => {
+                subjectSelect.innerHTML += `<option value="${subj.subjectName}">${subj.subjectId} - ${subj.subjectName}</option>`;
+            });
+            subjectSelect.value = currentValue;
+        }
+
+        // Delete subject
+        async function deleteSubject(subjectDocId) {
+            if (currentUser.role !== 'admin') {
+                Swal.fire({ text: 'คุณไม่มีสิทธิ์ในการลบวิชา' });
+                return;
+            }
+            const result = await Swal.fire({
+                title: 'ยืนยันการลบ',
+                text: 'คุณต้องการลบวิชานี้หรือไม่?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'ลบเลย',
+                cancelButtonText: 'ยกเลิก'
+            });
+            if (result.isConfirmed) {
+                try {
+                    await db.collection('subjects').doc(subjectDocId).delete();
+                    showMessage('ลบวิชาเรียบร้อยแล้ว! 🗑️');
+                    loadSubjects();
+                } catch (error) {
+                    console.error('Error deleting subject: ', error);
+                    showMessage('เกิดข้อผิดพลาดในการลบวิชา ❌', 'error');
+                }
+            }
+        }
         // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAXkTylM5Wt7W0XEjPa-Gf4dA417LRlTDs",
@@ -781,14 +971,18 @@
         function updateUIPermissions() {
             const isAdmin = currentUser.role === 'admin';
 
-            // Student management tab - only admin can see
+            // Student management tab & subject tab - only admin can see
             const studentTab = document.getElementById('studentTab');
+            const subjectTab = document.getElementById('subjectTab');
             if (isAdmin) {
                 studentTab.classList.remove('hidden');
+                subjectTab.classList.remove('hidden');
             } else {
                 studentTab.classList.add('hidden');
-                // Switch to attendance tab if currently on student tab
-                if (!document.getElementById('studentSection').classList.contains('hidden')) {
+                subjectTab.classList.add('hidden');
+                // Switch to attendance tab if currently on student tab or subject tab
+                if (!document.getElementById('studentSection').classList.contains('hidden') ||
+                    !document.getElementById('subjectSection').classList.contains('hidden')) {
                     document.getElementById('attendanceTab').click();
                 }
             }
@@ -861,6 +1055,8 @@
         document.getElementById('attendanceTab').addEventListener('click', () => {
             document.getElementById('attendanceSection').classList.remove('hidden');
             document.getElementById('studentSection').classList.add('hidden');
+            document.getElementById('filterSection').classList.remove('hidden');
+            document.getElementById('attendanceRecordsSection').classList.remove('hidden');
             document.getElementById('attendanceTab').className = 'flex-1 py-4 px-6 text-center font-medium text-indigo-600 border-b-2 border-indigo-600';
             document.getElementById('studentTab').className = 'flex-1 py-4 px-6 text-center font-medium text-gray-500 hover:text-indigo-600';
         });
@@ -868,8 +1064,18 @@
         document.getElementById('studentTab').addEventListener('click', () => {
             document.getElementById('studentSection').classList.remove('hidden');
             document.getElementById('attendanceSection').classList.add('hidden');
+            document.getElementById('filterSection').classList.add('hidden');
+            document.getElementById('attendanceRecordsSection').classList.add('hidden');
             document.getElementById('studentTab').className = 'flex-1 py-4 px-6 text-center font-medium text-indigo-600 border-b-2 border-indigo-600';
             document.getElementById('attendanceTab').className = 'flex-1 py-4 px-6 text-center font-medium text-gray-500 hover:text-indigo-600';
+        });
+
+        document.getElementById('subjectTab').addEventListener('click', () => {
+            document.getElementById('filterSection').classList.add('hidden');
+        });
+
+        document.getElementById('subjectTab').addEventListener('click', () => {
+            document.getElementById('attendanceRecordsSection').classList.add('hidden');
         });
 
         // Add student form
@@ -1234,8 +1440,9 @@
                 return;
             }
 
+
             const selectedGrade = document.getElementById('gradeSelect').value;
-            const subject = document.getElementById('subject').value;
+            const subject = document.getElementById('subjectSelect').value;
             const selectedDate = document.getElementById('attendanceDate').value;
 
             if (!selectedGrade || !subject || !selectedDate) {
@@ -1300,7 +1507,7 @@
 
                 // Reset form
                 document.getElementById('gradeSelect').value = '';
-                document.getElementById('subject').value = '';
+                document.getElementById('subjectSelect').value = '';
                 document.getElementById('studentsAttendanceSection').classList.add('hidden');
                 setTodayAsDefaultForForm();
 
